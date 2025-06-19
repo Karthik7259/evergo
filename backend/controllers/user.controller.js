@@ -1,5 +1,5 @@
 import UserModel from '../models/user.model.js';
-import bcrypt from 'bcryptjs';
+import bcryptjs from 'bcryptjs';
 import verifyEmailTemplate from '../utils/verifyEmailTemplate.js';
 import sendEmail from '../services/sendEmail.js';
 import generateAccessToken from '../utils/generatedAccessToken.js';
@@ -120,8 +120,8 @@ export async function loginUserController(req, res) {
              });
         }
 
-        const accesstoken=await user.generateAccessToken(user._id);
-        const refreshtoken=await user.generateRefreshToken(user._id);
+        const accesstoken=await  generateAccessToken(user._id);
+        const refreshtoken=await  generateRefreshToken(user._id);
 
         const cookieOptions = {
             httpOnly: true,
@@ -129,11 +129,12 @@ export async function loginUserController(req, res) {
             sameSite: 'None', // Adjust based on your requirements
             maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
         };
-        response.cookie('accessToken', accesstoken,cookieOptions);
-        response.cookie('refreshtoken', refreshtoken,cookieOptions);
+        res.cookie('accessToken', accesstoken,cookieOptions);
+        res.cookie('refreshtoken', refreshtoken,cookieOptions);
 
-        return response.json({
+        return res.status(200).json({
             message: 'User logged in successfully',
+            user,
             error: false,
             success: true,
             data : {
