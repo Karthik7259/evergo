@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import connectDB from './db/connectDB.js';
+import userRouter from './routes/user.routes.js';
 
 const app = express();
 app.use(cors({
@@ -29,6 +30,9 @@ app.get("/",(req, res) => {
         message: "Welcome to Evergo API"
     });
 })
+
+app.use('/evergo/user',userRouter)
+
 
 connectDB()
   .then(() => {
