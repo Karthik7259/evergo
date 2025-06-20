@@ -1,5 +1,5 @@
 import Router from 'express';
-import {forgotPassword, loginUserController, logoutUserController, registerUserController,updateuserDetails,uploadAvatar,verifyEmailController, verifyForgotPasswordOtp}  from '../controllers/user.controller.js';
+import {forgotPassword, loginUserController, logoutUserController, registerUserController,resetPassword,updateuserDetails,uploadAvatar,verifyEmailController, verifyForgotPasswordOtp}  from '../controllers/user.controller.js';
 import auth from '../middleware/auth.js';
 import  upload  from '../middleware/multer.js'; // Assuming you have a middleware for handling file uploads
 
@@ -14,6 +14,9 @@ userRouter.put('/upload-profile',auth,upload.single('avatar'),uploadAvatar);
 userRouter.put('/update-user',auth,updateuserDetails);
 userRouter.put('/forgot-password',forgotPassword)   
 userRouter.put('/verify-forgot-password-otp',verifyForgotPasswordOtp)
+userRouter.put('/reset-password',resetPassword);
+
+
 
 
 

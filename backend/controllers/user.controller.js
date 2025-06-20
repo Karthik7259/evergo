@@ -360,7 +360,7 @@ export async function verifyForgotPasswordOtp(req, res) {
             });
         }
         
-        const currentTime = new Date();
+        const currentTime = new Date().toISOString;
         const expiryTime = new Date(user.forgot_password_expiry);
         if (currentTime > expiryTime) {
             return res.status(400).json({
@@ -397,9 +397,103 @@ export async function verifyForgotPasswordOtp(req, res) {
 
 export async function resetPassword(req, res) {
      try{
-     
-     }catch(error){
+     const {email, newPassword,confirmPassword} = req.body;
 
+     if(!email || !newPassword || !confirmPassword){
+        return res.status(400).json({
+            message: 'All fields are required',
+            error: true,
+            success: false
+        });
      }
+     const user = await UserModel.findOne({ email });
+     if(!user){
+        return res.status(400).json({
+            message: 'User not found',
+            error: true,
+            success: false
+        });
+     }  
+        if(newPassword !== confirmPassword){
+            return res.status(400).json({
+                message: 'Passwords do not match',
+                error: true,
+                success: false
+            });
 
+        }
+
+        const salt = await bcryptjs.genSalt(10);
+        const hashedPassword = await bcryptjs.hash(newPassword, salt);
+       
+        const update=await UserModel.findByIdAndUpdate(
+            user._id,
+            { password: hashedPassword, forgot_password_otp: "", forgot_password_expiry: "" },
+            { new: true }
+        );  
+        return res.json({
+            message: 'Password reset successfully',
+            error: false,
+            success: true,
+            data: update
+        });
+     }catch(error){
+         return res.status(500).json({
+            message: error.message || error,
+            error : true,
+            success: false
+        })
+     }
     }
+
+
+// refresh token controller
+
+export async function refreshTokenController(req, res) {
+    try {
+        const refreshToken = req.cookies.refreshToken || req.headers.authorization?.split(" ")[1]; // {bearer token}
+        if (!refreshToken) {
+            return res.status(401).json({
+                message: 'Unauthorized',
+                error: true,
+                success: false
+            });
+        }
+
+        console.log("Refresh Token:", refreshToken);
+        // const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+        // if (!decoded) {
+        //     return res.status(401).json({
+        //         message: 'Invalid refresh token',
+        //         error: true,
+        //         success: false
+        //     });
+        // }
+        // const user = await UserModel.findById(decoded.id);
+        // if (!user) {
+        //     return res.status(404).json({
+        //         message: 'User not found',
+        //         error: true,
+        //         success: false
+        //     });
+        // }
+        // const accessToken = await generateAccessToken(user._id);
+        // const cookieOptions = {
+        //     httpOnly: true,
+        //     secure: true, // Set to true if using HTTPS
+        //     sameSite: 'None', // Adjust based on your requirements
+        // };
+    
+
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        });
+    }
+}
+
+
+
+
