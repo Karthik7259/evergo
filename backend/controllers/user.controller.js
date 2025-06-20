@@ -4,6 +4,7 @@ import verifyEmailTemplate from '../utils/verifyEmailTemplate.js';
 import sendEmail from '../services/sendEmail.js';
 import generateAccessToken from '../utils/generatedAccessToken.js';
 import generateRefreshToken from '../utils/generateRefreshToken.js';
+import uploadImageToCloudinary from '../utils/uploadimageClodinary.js';
 
 export async function registerUserController(req, res) {
     try {
@@ -127,7 +128,7 @@ export async function loginUserController(req, res) {
             httpOnly: true,
             secure: true, // Set to true if using HTTPS
             sameSite: 'None', // Adjust based on your requirements
-            maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+            
         };
         res.cookie('accessToken', accesstoken,cookieOptions);
         res.cookie('refreshtoken', refreshtoken,cookieOptions);
@@ -151,3 +152,100 @@ export async function loginUserController(req, res) {
     }
 }
 
+export async function logoutUserController(req, res) { 
+    try{
+
+        const userId = req.userId; // Assuming auth middleware sets req.userId
+        if (!userId) {
+            return res.status(400).json({ 
+                message: 'User not found',
+                error: true,
+                success: false
+             });
+        }
+
+         // Clear cookies
+
+
+        const cookieOptions = {
+            httpOnly: true,
+            secure: true, // Set to true if using HTTPS
+            sameSite: 'None', // Adjust based on your requirements
+            
+        };
+         res.clearCookie('accessToken', cookieOptions);
+         res.clearCookie('refreshtoken', cookieOptions);
+
+         const removerefreshtoken=await UserModel.findByIdAndUpdate(
+            userId,
+            { refreshToken: "" },
+            
+        );
+            return res.status(200).json({
+                message: 'User logged out successfully',
+                error: false,
+                success: true
+            });
+    }catch(error){
+        res.status(500).json({ 
+            message: error.message || error,
+            error : true,
+            success: false
+        });
+    }
+}
+
+
+
+export async function uploadAvatar(req,res) {
+  try{
+    const userId = req.userId; // Assuming auth middleware sets req.userId
+    const image=req.file; // mullter middleware will handle the file upload and make it available in req.file
+
+    const upload =await uploadImageToCloudinary(image)
+
+    const updateUser=await UserModel.findByIdAndUpdate(
+        userId,
+        { avatar: upload.url }
+        , { new: true }
+        
+    );
+
+    return res.status(200).json({
+        message: 'Image uploaded successfully',
+        error: false,
+        success: true,
+        data:{
+            _id: userId,
+            avatar: upload.url,
+            updateUser
+        }
+    });
+
+
+
+  }catch(error){
+    res.status(500).json({ 
+        message: error.message || error,
+        error : true,
+        success: false
+    });
+  }
+}
+
+
+
+export async function updateuserprofile(req,res){
+  try{
+ 
+    
+
+
+  }catch(error){
+    res.status(500).json({ 
+        message: error.message || error,
+        error : true,
+        success: false
+    });
+  }
+}
