@@ -7,6 +7,7 @@ import generateRefreshToken from '../utils/generateRefreshToken.js';
 import uploadImageToCloudinary from '../utils/uploadimageClodinary.js';
 import generatedOtp from '../utils/generatedOtp.js';
 import forgotPasswordTemplate from '../utils/forgotPasswordTemplate.js';
+import jwt from 'jsonwebtoken';
 
 export async function registerUserController(req, res) {
     try {
@@ -451,7 +452,8 @@ export async function resetPassword(req, res) {
 
 export async function refreshTokenController(req, res) {
     try {
-        const refreshToken = req.cookies.refreshToken || req.headers.authorization?.split(" ")[1]; // {bearer token}
+        const refreshToken = req.cookies.refreshtoken
+ || req.headers.authorization?.split(" ")[1]; // {bearer token}
         if (!refreshToken) {
             return res.status(401).json({
                 message: 'Unauthorized',
@@ -461,29 +463,37 @@ export async function refreshTokenController(req, res) {
         }
 
         console.log("Refresh Token:", refreshToken);
-        // const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-        // if (!decoded) {
-        //     return res.status(401).json({
-        //         message: 'Invalid refresh token',
-        //         error: true,
-        //         success: false
-        //     });
-        // }
-        // const user = await UserModel.findById(decoded.id);
-        // if (!user) {
-        //     return res.status(404).json({
-        //         message: 'User not found',
-        //         error: true,
-        //         success: false
-        //     });
-        // }
-        // const accessToken = await generateAccessToken(user._id);
-        // const cookieOptions = {
-        //     httpOnly: true,
-        //     secure: true, // Set to true if using HTTPS
-        //     sameSite: 'None', // Adjust based on your requirements
-        // };
-    
+        const verifyToken=await jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET); // verify refresh token
+        if (!verifyToken) {
+            return res.status(401).json({
+                message: 'Invalid refresh token',
+                error: true,
+                success: false
+            });
+        }
+
+        
+         console.log("Verified Token:", verifyToken);
+         const userId = verifyToken?.id; // Extract user ID from the verified token
+       const newAccessToken = await generateAccessToken(userId); // Generate a new access token
+
+       const cookieOptions = {
+            httpOnly: true,
+            secure: true, // Set to true if using HTTPS
+            sameSite: 'None', // Adjust based on your requirements
+        }
+
+       res.cookie('accessToken', newAccessToken,cookieOptions );
+
+        return res.status(200).json({
+            message: 'Access token refreshed successfully',
+            error: false,
+            success: true,
+            data: {
+                accessToken: newAccessToken
+            }
+        });
+
 
     } catch (error) {
         return res.status(500).json({
