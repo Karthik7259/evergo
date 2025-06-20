@@ -5,6 +5,8 @@ import sendEmail from '../services/sendEmail.js';
 import generateAccessToken from '../utils/generatedAccessToken.js';
 import generateRefreshToken from '../utils/generateRefreshToken.js';
 import uploadImageToCloudinary from '../utils/uploadimageClodinary.js';
+import generatedOtp from '../utils/generatedOtp.js';
+import forgotPasswordTemplate from '../utils/forgotPasswordTemplate.js';
 
 export async function registerUserController(req, res) {
     try {
@@ -272,3 +274,132 @@ export async function updateuserDetails(req,res){
     });
   }
 }
+
+
+
+export async function forgotPassword(req,res){
+     try{
+       const {email} = req.body;
+       if(!email){
+        return res.status(400).json({
+            message: 'Email and otp is required',
+            error: true,
+            success: false
+        });
+       }
+
+       const user=await UserModel.findOne({email});
+       
+       if(!user){
+        return res.status(400).json({
+            message: 'User not found',
+            error: true,
+            success: false
+        });
+       }
+       
+       const otp=generatedOtp();
+
+       const expireTime=new Date() + 60 * 60 *1000 ;
+
+    
+     const update=await UserModel.findByIdAndUpdate(user._id,{$set:{
+        forgot_password_otp:otp,
+        forgot_password_expiry:new Date(expireTime).toISOString(),
+     }});
+
+    await sendEmail({
+        sendTo: email,
+        subject: 'Reset Password OTP from evergo',
+        html: forgotPasswordTemplate({
+            name: user.name,
+            otp: otp
+
+        })
+
+    });
+
+    return res.json({
+        message: 'Check your email for the OTP',
+        error: false,
+        success: true,
+        data: update
+    })
+    
+
+
+
+
+     }catch(error){
+        return res.status(500).json({
+            message: error.message || error,
+            error : true,
+            success: false
+        })
+     }
+}
+
+// verify forgot password otp
+
+export async function verifyForgotPasswordOtp(req, res) {
+    try {
+        const { email, otp } = req.body;
+        if (!email || !otp) {
+            return res.status(400).json({
+                message: 'Email and OTP are required',
+                error: true,
+                success: false
+            });
+        }
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            return res.status(400).json({
+                message: 'User not found',
+                error: true,
+                success: false
+            });
+        }
+        
+        const currentTime = new Date();
+        const expiryTime = new Date(user.forgot_password_expiry);
+        if (currentTime > expiryTime) {
+            return res.status(400).json({
+                message: 'OTP has expired',
+                error: true,
+                success: false
+            });
+        }
+
+        if (user.forgot_password_otp !== otp) {
+            return res.status(400).json({
+                message: 'Invalid OTP',
+                error: true,
+                success: false
+            });
+        }
+
+        return res.json({
+            message: 'OTP verified successfully',
+            error: false,
+            success: true,
+            data: user
+        });
+    } catch (error) {    
+        return res.status(500).json({
+            message: error.message || error,
+            error : true,
+            success: false
+        })
+    }
+}
+
+// reset password after otp verification
+
+export async function resetPassword(req, res) {
+     try{
+     
+     }catch(error){
+
+     }
+
+    }
