@@ -21,11 +21,10 @@ export async function registerUserController(req, res) {
             return res.status(400).json({ message: 'User already exists',
                 error: true,
                 success: false
-             });
-        }
+             });        }
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+        const salt = await bcryptjs.genSalt(10);
+        const hashedPassword = await bcryptjs.hash(password, salt);
 
          const payload = {
             name,
@@ -76,9 +75,7 @@ export async function verifyEmailController(req, res) {
     const updatedUser = await UserModel.updateOne(
         { _id: code },
         {   verify_email: true  }
-    );
-
-    return response.json({ 
+    );    return res.json({ 
         message: 'User verified successfully',
         error: false,
         success: true
@@ -235,12 +232,38 @@ export async function uploadAvatar(req,res) {
 
 
 
-export async function updateuserprofile(req,res){
+export async function updateuserDetails(req,res){
   try{
- 
+    const userId = req.userId; // Assuming auth middleware sets req.userId
+    const {name,email,mobile,password} = req.body;
+      
     
+    let hashedPassword;
+    if(password){
+        const salt = await bcryptjs.genSalt(10);
+        hashedPassword = await bcryptjs.hash(password, salt);
+    }
 
+    const updatedFields = {
+  ...(name && { name }),
+  ...(email && { email }),
+  ...(mobile && { mobile }),
+  ...(password && { password: hashedPassword }), // only include if password is provided
+};
 
+    const updatedUser=await UserModel.findByIdAndUpdate(
+        userId,
+       updatedFields, // Hash the password if provided
+        { new: true }
+        
+    );
+  
+    return res.json({
+        message: 'User profile updated successfully',
+        error: false,
+        success: true,
+        data: updatedUser
+    })
   }catch(error){
     res.status(500).json({ 
         message: error.message || error,
