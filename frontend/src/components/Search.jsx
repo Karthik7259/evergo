@@ -27,7 +27,7 @@ const Search = () => {
 
 
   return (
-    <div className='w-full  min-w-[280px] lg:min-w-[420px] h-12 rounded-lg border border-gray-200 overflow-hidden flex items-center text-neutral-500 bg-slate-50 group focus-within:border-[#2296bf] outline-none '>
+    <div className='w-full  min-w-[240px] lg:min-w-[420px] h-10 lg:h-12 rounded-lg border border-gray-200 overflow-hidden flex items-center text-neutral-500 bg-slate-50 group focus-within:border-[#2296bf] outline-none mt-[-20px]'>
       <button className='flex justify-center items-center h-full p-3 group-focus-within:text-[#6ecde3] '>
         <IoSearch size={22} />
       </button>
