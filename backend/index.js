@@ -11,8 +11,9 @@ import userRouter from './routes/user.routes.js';
 
 const app = express();
 app.use(cors({
-    Credentials: true,
-    origin: process.env.FRONTEND_URL
+    credentials: true,
+    origin: process.env.FRONTEND_URL,
+    
 }));
 
 app.use(express.json());
@@ -22,7 +23,7 @@ app.use(helmet({
     crossOriginResourcePolicy: false,
 }));
 
-const PORT=8080 || process.env.PORT;
+const PORT= process.env.PORT || 8080;
 
 
 app.get("/",(req, res) => {
