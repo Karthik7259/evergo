@@ -1,17 +1,22 @@
 import React from 'react'
 import logo from '../assets/Evegro logo.png'
 import Search from './Search'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation ,useNavigate} from 'react-router-dom'
 import { FaRegCircleUser } from 'react-icons/fa6'
 import useMobile from '../hooks/useMobile'
-
+import {BsCart4} from 'react-icons/bs'
+import {TiShoppingCart} from 'react-icons/ti'
 
 const Header = () => {
   const [isMobile] = useMobile();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isSearchPage = location.pathname === "/search";
 
+  const redirectToLoginPage = () => {
+    navigate('/login');
+  }
 
   return (
     <header className='h-24 lg:h-20  lg:shadow-md sticky top-0  flex  flex-col justify-center'>
@@ -33,11 +38,21 @@ const Header = () => {
               <Search />
             </div>
             <div>
+              {/* user icon it is visible only on mobile */}
               <button className='text-neutral-600 mt-[25px]  lg:hidden  ' >
                 <FaRegCircleUser size={26} />
               </button>
-              <div className='hidden lg:block'>
-                Login and my cart
+              {/* Desktop */}
+              <div className='hidden lg:flex items-center gap-8' >
+                  <button onClick={redirectToLoginPage} className='text-lg px-2 '>Login</button>
+                  <button className='flex items-center gap-2 bg-green-800  hover:bg-green-700 px-3 py-3 rounded text-white '>
+                      <div className='animate-bounce'>
+                              <BsCart4 size={26} />
+                      </div>
+                      <div className='font-semibold '>
+                        <p>My Cart</p> 
+                      </div>
+                  </button>
               </div>
             </div>
           </div>
