@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import Axios from '../../utils/Axios'
 import SummaryApi from '../../common/SummaryApi'
 import AxiosToastError from '../../utils/AxiosToastError'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Register = () => {
 
@@ -165,6 +165,10 @@ const Register = () => {
             Register
           </button>
         </form>
+
+          <p>
+            Already have account ? <Link to={"/login"} className='font-semibold text-green-700 hover:text-green-800 '>Login</Link>
+          </p>
       </div>
     </section>
   )

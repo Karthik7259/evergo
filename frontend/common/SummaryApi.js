@@ -8,7 +8,17 @@ const SummaryApi = {
         url:'/evergo/user/register',
         method: 'post',
     
-    }
+    },
+    login : {
+        
+        url:'/evergo/user/login',
+        method: 'post',
+    
+    },
+    forgotPassword : {
+        url:'/evergo/user/forgot-password',
+        method: 'put',
+    },
 
 }
 
