@@ -10,10 +10,8 @@ import { Link, useNavigate } from 'react-router-dom'
 const Login = () => {
 
   const [data, setData] = useState({
-     
     email: "",
     password: "",
-
   })
 
   const [showpassword, setShowPassword] = useState(false);
@@ -35,41 +33,45 @@ const Login = () => {
 
    const handleSubmit = async(e)=>{
     e.preventDefault();
-
     
-   
-
-   try{
-    const response= await Axios({
-      ...SummaryApi.login,
-      data: 
-       data
+    try{
+      // Add a loading toast that will be dismissed on success or error
+      const loadingToastId = toast.loading('Logging in...');
       
-    })
- 
-    console.log("response", response);
-    
-    if (response.data.error) {
-      toast.error(response.data.message);
-    } 
+      const response = await Axios({
+        ...SummaryApi.login,
+        data: data
+      });
+   
+      console.log("response", response);
+      
+      // Dismiss the loading toast
+      toast.dismiss(loadingToastId);
+      
+      if (response.data.error) {
+        toast.error(response.data.message);
+      } 
 
-    if (response.data.success) {
-      toast.success(response.data.message);
-      localStorage.setItem('accesstoken', response.data.data.accesstoken);
-      localStorage.setItem('refreshtoken', response.data.data.refreshtoken);
-      setData({
-       
-        email: "",
-        password: "",
-        
-      })
+      if (response.data.success) {
+        toast.success(response.data.message);
+        localStorage.setItem('accesstoken', response.data.data.accesstoken);
+        localStorage.setItem('refreshtoken', response.data.data.refreshtoken);
+        setData({
+          email: "",
+          password: "",
+        });
 
-      navigate('/');
-     
-    }
+        navigate('/');
+      }
    
    }catch(err){
-      AxiosToastError(err);
+      // For network errors specifically
+      if (err.message === 'Network Error' || !err.response) {
+        toast.error('Cannot connect to server. Please check your internet connection or try again later.');
+      } else {
+        // For other errors, use the AxiosToastError helper
+        AxiosToastError(err);
+      }
    }
 
   
