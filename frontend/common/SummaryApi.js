@@ -19,6 +19,10 @@ const SummaryApi = {
         url:'/evergo/user/forgot-password',
         method: 'put',
     },
+    verifyForgotPasswordOtp : {
+        url:'/evergo/user/verify-forgot-password-otp',
+        method:'put',
+    },
 
 }
 

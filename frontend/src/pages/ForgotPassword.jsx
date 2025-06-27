@@ -55,13 +55,15 @@ const ForgotPassword = () => {
 
     if (response.data.success) {
       toast.success(response.data.message);
+      navigate('/verifcation-otp',{
+        state: data
+      });
       setData({
        
         email: "",
-        
       })
 
-      navigate('/verifcation-otp');
+      
      
     }
    
