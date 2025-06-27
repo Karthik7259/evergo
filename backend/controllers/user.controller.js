@@ -419,7 +419,7 @@ export async function resetPassword(req, res) {
      }  
         if(newPassword !== confirmPassword){
             return res.status(400).json({
-                message: 'Passwords do not match',
+                message: 'New Password and confirm Password must be same ',
                 error: true,
                 success: false
             });

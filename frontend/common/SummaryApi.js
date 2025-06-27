@@ -1,3 +1,5 @@
+
+
 export const baseurl= 'http://localhost:8080';
 
 
@@ -22,6 +24,10 @@ const SummaryApi = {
     verifyForgotPasswordOtp : {
         url:'/evergo/user/verify-forgot-password-otp',
         method:'put',
+    },
+    resetPassword : {
+        url:'/evergo/user/reset-password',
+        method:'put',   
     },
 
 }

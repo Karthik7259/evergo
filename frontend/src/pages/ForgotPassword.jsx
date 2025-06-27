@@ -35,10 +35,6 @@ const ForgotPassword = () => {
 
    const handleSubmit = async(e)=>{
     e.preventDefault();
-
-    
-   
-
    try{
     const response= await Axios({
       ...SummaryApi.forgotPassword,
@@ -46,27 +42,19 @@ const ForgotPassword = () => {
        data
       
     })
- 
     console.log("response", response);
-    
     if (response.data.error) {
       toast.error(response.data.message);
     } 
-
     if (response.data.success) {
       toast.success(response.data.message);
       navigate('/verifcation-otp',{
         state: data
       });
       setData({
-       
         email: "",
       })
-
-      
-     
     }
-   
    }catch(err){
       AxiosToastError(err);
    }
