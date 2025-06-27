@@ -454,8 +454,7 @@ export async function resetPassword(req, res) {
 
 export async function refreshTokenController(req, res) {
     try {
-        const refreshToken = req.cookies.refreshtoken
- || req.headers.authorization?.split(" ")[1]; // {bearer token}
+        const refreshToken = req.cookies.refreshtoken || req.headers.authorization?.split(" ")[1]; // {bearer token}
         if (!refreshToken) {
             return res.status(401).json({
                 message: 'Unauthorized',

@@ -6,16 +6,12 @@ export const baseurl= 'http://localhost:8080';
 const SummaryApi = {
 
     register : {
-        
         url:'/evergo/user/register',
         method: 'post',
-    
     },
     login : {
-        
         url:'/evergo/user/login',
         method: 'post',
-    
     },
     forgotPassword : {
         url:'/evergo/user/forgot-password',
@@ -29,6 +25,10 @@ const SummaryApi = {
         url:'/evergo/user/reset-password',
         method:'put',   
     },
+    refreshToken :{
+        url:'/evergo/user/refresh-token',
+        method:'post'
+    }
 
 }
 
