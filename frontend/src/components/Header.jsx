@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../assets/Evegro logo.png'
 import Search from './Search'
 import { Link, useLocation ,useNavigate} from 'react-router-dom'
@@ -6,7 +6,9 @@ import { FaRegCircleUser } from 'react-icons/fa6'
 import useMobile from '../hooks/useMobile'
 import {BsCart4} from 'react-icons/bs'
 import { useSelector } from 'react-redux'
-
+import {GoTriangleDown} from 'react-icons/go'
+import {GoTriangleUp} from 'react-icons/go'
+import UserMenu from './UserMenu'
 
 const Header = () => {
   const [isMobile] = useMobile();
@@ -17,7 +19,10 @@ const Header = () => {
 
   const user=useSelector((state)=>state?.user)
 
-  console.log("user from store", user);
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+
+
+    console.log("user from store", user);
 
   const redirectToLoginPage = () => {
     navigate('/login');
@@ -49,7 +54,27 @@ const Header = () => {
               </button>
               {/* Desktop */}
               <div className='hidden lg:flex items-center gap-8' >
-                  <button onClick={redirectToLoginPage} className='text-lg px-2 '>Login</button>
+                {
+                  user?._id ? (
+                    <div className='relative'>
+                    <div className='flex items-center gap-2'>
+
+              <p>Account</p>
+              <GoTriangleDown/>
+              {/* <GoTriangleUp/> */}
+         
+</div>
+<div className='absolute right-0 top-12'>
+           <div className='bg-white rounded p-4 min-w-52 lg:shadow-lg'>
+                <UserMenu/>
+           </div>
+          </div>
+</div>
+                  ) : (
+
+                    <button onClick={redirectToLoginPage} className='text-lg px-2 '>Login</button>
+                  )
+                }
                   <button className='flex items-center gap-2 bg-green-800  hover:bg-green-700 px-3 py-3 rounded text-white '>
                       <div className='animate-bounce'>
                               <BsCart4 size={26} />
