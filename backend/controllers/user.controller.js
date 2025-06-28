@@ -126,18 +126,23 @@ export async function loginUserController(req, res) {
         const accesstoken=await  generateAccessToken(user._id);
         const refreshtoken=await  generateRefreshToken(user._id);
 
+     const updateUser = await UserModel.findByIdAndUpdate(user?._id ,{
+        last_login_date : new Date()
+     });
+
+
+
         const cookieOptions = {
             httpOnly: true,
             secure: true, // Set to true if using HTTPS
             sameSite: 'None', // Adjust based on your requirements
-            
         };
         res.cookie('accessToken', accesstoken,cookieOptions);
         res.cookie('refreshtoken', refreshtoken,cookieOptions);
 
         return res.status(200).json({
-            message: 'User logged in successfully',
-            user,
+     message: 'User logged in successfully',
+    updateUser,
             error: false,
             success: true,
             data : {
@@ -380,12 +385,19 @@ export async function verifyForgotPasswordOtp(req, res) {
                 success: false
             });
         }
+ 
+        const updateUser=await UserModel.findByIdAndUpdate(user?._id,
+            { forgot_password_otp: "", forgot_password_expiry: "" },
+            { new: true } // Return the updated user document
+
+        )
+
 
         return res.json({
             message: 'OTP verified successfully',
             error: false,
             success: true,
-            data: user
+            data: updateUser
         });
     } catch (error) {    
         return res.status(500).json({
@@ -505,6 +517,30 @@ export async function refreshTokenController(req, res) {
     }
 }
 
+
+// get login user details
+
+export async function userDetails(req,res){
+    try{
+        const userId=req.userId
+
+
+        const user=await UserModel.findById(userId).select('-password -refreshToken'); // Exclude sensitive fields like password
+
+        return res.status(200).json({
+            message: 'User details fetched successfully',
+            error: false,
+            success: true,
+            data: user
+        });
+    }catch(error){
+        return res.status(500).json({
+            message: error.message || error,
+            error : true,
+            success: false
+        })
+    }
+}
 
 
 

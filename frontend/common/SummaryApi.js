@@ -28,6 +28,10 @@ const SummaryApi = {
     refreshToken :{
         url:'/evergo/user/refresh-token',
         method:'post'
+    },
+    userDetails :{
+        url:'/evergo/user/user-details',
+        method:'get'
     }
 
 }
