@@ -462,6 +462,42 @@ export async function resetPassword(req, res) {
     }
 
 
+// Get user details controller
+export async function getUserDetails(req, res) {
+    try {
+        const userId = req.userId; // From auth middleware
+        if (!userId) {
+            return res.status(401).json({
+                message: 'Unauthorized',
+                error: true,
+                success: false
+            });
+        }
+
+        const user = await UserModel.findById(userId).select('-password -refreshToken -forgot_password_otp -forgot_password_expiry');
+        if (!user) {
+            return res.status(404).json({
+                message: 'User not found',
+                error: true,
+                success: false
+            });
+        }
+
+        return res.status(200).json({
+            message: 'User details retrieved successfully',
+            error: false,
+            success: true,
+            data: user
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        });
+    }
+}
+
 // refresh token controller
 
 export async function refreshTokenController(req, res) {
@@ -523,8 +559,6 @@ export async function refreshTokenController(req, res) {
 export async function userDetails(req,res){
     try{
         const userId=req.userId
-
-
         const user=await UserModel.findById(userId).select('-password -refreshToken'); // Exclude sensitive fields like password
 
         return res.status(200).json({
@@ -533,6 +567,7 @@ export async function userDetails(req,res){
             success: true,
             data: user
         });
+        
     }catch(error){
         return res.status(500).json({
             message: error.message || error,

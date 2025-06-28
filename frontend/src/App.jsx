@@ -5,7 +5,7 @@ import Footer from './components/Footer'
 
 import toast, { Toaster } from 'react-hot-toast'
 import fetchUserDetails from '../utils/fetchUserDetails'
-import {setUserDetails} from '../redux/userSlice'
+import { setUserDetails } from './redux/userSlice'
 import { useDispatch } from 'react-redux'
 
  
@@ -14,8 +14,15 @@ function App() {
   const dispatch=useDispatch()
 
   const fetchUser = async () => {
-    const userData=await fetchUserDetails()
-    dispatch(setUserDetails(userData.data))
+    try {
+      const userData = await fetchUserDetails();
+      if (userData?.data) {
+        dispatch(setUserDetails(userData.data));
+      }
+    } catch (error) {
+      console.log('Error fetching user details:', error);
+      // Don't show error toast for user details as it might be called on every page load
+    }
   }
 
 
