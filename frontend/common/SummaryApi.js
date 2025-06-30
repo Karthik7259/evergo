@@ -32,8 +32,11 @@ const SummaryApi = {
     userDetails :{
         url:'/evergo/user/user-details',
         method:'get'
-    }
-
+    },
+    logout : {
+        url:'/evergo/user/logout',
+        method:'get'
+    },
 }
 
 export default SummaryApi;
