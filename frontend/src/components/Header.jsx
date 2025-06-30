@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { use, useState } from 'react'
 import logo from '../assets/Evegro logo.png'
 import Search from './Search'
 import { Link, useLocation ,useNavigate} from 'react-router-dom'
@@ -16,9 +16,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const isSearchPage = location.pathname === "/search";
-
   const user=useSelector((state)=>state?.user)
-
   const [openUserMenu, setOpenUserMenu] = useState(false);
 
 
@@ -30,6 +28,14 @@ const Header = () => {
 
   const handleCloseUserMenu = () => {
     setOpenUserMenu(false);
+  }
+
+  const handleMobileuser = () => {
+     if(!user._id){
+      navigate('/login');
+      return
+     }
+     navigate('/user');
   }
 
   return (
@@ -53,7 +59,7 @@ const Header = () => {
             </div>
             <div>
               {/* user icon it is visible only on mobile */}
-              <button className='text-neutral-600 mt-[25px]  lg:hidden  ' >
+              <button className='text-neutral-600 mt-[25px]  lg:hidden ' onClick={handleMobileuser} >
                 <FaRegCircleUser size={26} />
               </button>
               {/* Desktop */}
@@ -61,7 +67,7 @@ const Header = () => {
                 {
                   user?._id ? (
                     <div className='relative'>
-                    <div onClick={()=>setOpenUserMenu(preve => !preve)} className='flex select-none items-center gap-1 cursor-pointer'>
+                    <div onClick={()=>setOpenUserMenu(prev => !prev)} className='flex select-none items-center gap-1 cursor-pointer'>
 
               <p>Account</p>
               {

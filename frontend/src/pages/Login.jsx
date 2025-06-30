@@ -6,7 +6,7 @@ import Axios from '../../utils/Axios'
 import SummaryApi from '../../common/SummaryApi'
 import AxiosToastError from '../../utils/AxiosToastError'
 import { Link, useNavigate } from 'react-router-dom'
-import { fetchUserDetails } from '../../utils/fetchUserDetails'
+import fetchUserDetails from '../../utils/fetchUserDetails'
 import { useDispatch } from 'react-redux'
 import { setUserDetails } from '../redux/userSlice'
 const Login = () => {
@@ -31,11 +31,15 @@ const Login = () => {
     });
   }
 
+ 
+
   const valideValue=Object.values(data).every(el=>el)
 
 
    const handleSubmit = async(e)=>{
     e.preventDefault();
+    
+   
     
     try{
       // Add a loading toast that will be dismissed on success or error
@@ -72,6 +76,13 @@ const Login = () => {
       }
    
    }catch(err){
+      // Dismiss loading toast if it exists
+      toast.dismiss();
+      
+      console.log('Login error:', err);
+      console.log('Error response:', err.response);
+      console.log('Error message:', err.message);
+      
       // For network errors specifically
       if (err.message === 'Network Error' || !err.response) {
         toast.error('Cannot connect to server. Please check your internet connection or try again later.');
@@ -137,6 +148,8 @@ const Login = () => {
           <button disabled={!valideValue}  className={` ${ valideValue ?  "bg-green-800 hover:bg-green-700" : "bg-gray-500"}  text-white py-2 rounded font-semibold my-3 tracking-wide`}>
             Login
           </button>
+          
+          
         </form>
 
           <p>
