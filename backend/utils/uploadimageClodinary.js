@@ -7,7 +7,11 @@ cloudinary.config({
 });
 
 const uploadImageToCloudinary = async (image) => {
-    const buffer=image?.buffer || Buffer.from(await image.arrayBuffer());
+    if (!image || !image.buffer) {
+        throw new Error('Invalid image file - no buffer found');
+    }
+
+    const buffer = image.buffer;
 
     const uploadImage=await new Promise((resolve, reject) => {
         cloudinary.uploader.upload_stream(
@@ -15,6 +19,9 @@ const uploadImageToCloudinary = async (image) => {
             folder: 'images',
            },
            (error,uploadResult) => {
+              if (error) {
+                  return reject(error);
+              }
               return resolve(uploadResult)
            }
         ).end(buffer);

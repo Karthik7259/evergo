@@ -207,9 +207,19 @@ export async function logoutUserController(req, res) {
 export async function uploadAvatar(req,res) {
   try{
     const userId = req.userId; // Assuming auth middleware sets req.userId
-    const image=req.file; // mullter middleware will handle the file upload and make it available in req.file
+    const image = req.file; // multer middleware will handle the file upload and make it available in req.file
 
-    const upload =await uploadImageToCloudinary(image)
+    if (!image) {
+        return res.status(400).json({
+            message: 'No image file provided',
+            error: true,
+            success: false
+        });
+    }
+
+    console.log('File received:', image); // Debug log
+
+    const upload = await uploadImageToCloudinary(image)
 
     const updateUser=await UserModel.findByIdAndUpdate(
         userId,
@@ -264,8 +274,7 @@ export async function updateuserDetails(req,res){
     const updatedUser=await UserModel.findByIdAndUpdate(
         userId,
        updatedFields, // Hash the password if provided
-        { new: true }
-        
+        { new: true } 
     );
   
     return res.json({

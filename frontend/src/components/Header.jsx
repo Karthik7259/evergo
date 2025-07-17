@@ -20,7 +20,7 @@ const Header = () => {
   const [openUserMenu, setOpenUserMenu] = useState(false);
 
 
-    console.log("user from store", user);
+    
 
   const redirectToLoginPage = () => {
     navigate('/login');
@@ -29,6 +29,8 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setOpenUserMenu(false);
   }
+
+  
 
   const handleMobileuser = () => {
      if(!user._id){

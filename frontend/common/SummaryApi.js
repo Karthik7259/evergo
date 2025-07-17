@@ -37,6 +37,15 @@ const SummaryApi = {
         url:'/evergo/user/logout',
         method:'get'
     },
+    uploadAvatar : {
+        url:'/evergo/user/upload-profile',
+        method:'put'
+    },
+    updateUserDetails : {
+        url:'/evergo/user/update-user',
+        method:'put'
+    }
+
 }
 
 export default SummaryApi;
