@@ -62,6 +62,12 @@ const UserMenu = ({close}) => {
 
       
       <div className='text-sm grid gap-1'>
+      
+      
+      <Link onClick={handleClose} to={"/dashboard/Category"} className="px-2  hover:bg-orange-200 py-1" >Category</Link>
+      <Link onClick={handleClose} to={"/dashboard/SubCategory"} className="px-2  hover:bg-orange-200 py-1" >Sub Category</Link>
+      <Link onClick={handleClose} to={"/dashboard/Upload-Product"} className="px-2  hover:bg-orange-200 py-1" >Upload Product</Link>
+      <Link onClick={handleClose} to={"/dashboard/Product"} className="px-2  hover:bg-orange-200 py-1" >Product</Link>
         <Link onClick={handleClose} to={"/dashboard/myorders"} className="px-2  hover:bg-orange-200 py-1" >My Orders</Link>
         <Link onClick={handleClose} to={"/dashboard/address"}  className="px-2 hover:bg-orange-200 py-1 " >Save Address</Link>
         <button onClick={handleLogout} className='text-left px-2 hover:bg-red-200 py-1'> Logout </button>
