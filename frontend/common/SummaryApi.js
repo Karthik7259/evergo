@@ -1,3 +1,4 @@
+import upload from "../../backend/middleware/multer";
 
 
 export const baseurl= 'http://localhost:8080';
@@ -44,6 +45,14 @@ const SummaryApi = {
     updateUserDetails : {
         url:'/evergo/user/update-user',
         method:'put'
+    },
+    addCategory : {
+        url:'/evergo/category/add-category',
+        method:'post'
+    },
+    uploadImage : {
+        url :'/evergo/file/upload',
+        method: 'post',
     }
 
 }

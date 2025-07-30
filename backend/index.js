@@ -8,6 +8,8 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import connectDB from './db/connectDB.js';
 import userRouter from './routes/user.routes.js';
+import categoryRouter from './routes/category.routes.js';
+import uploadRouter from './routes/upload.router.js';
 
 const app = express();
 app.use(cors({
@@ -33,6 +35,8 @@ app.get("/",(req, res) => {
 })
 
 app.use('/evergo/user',userRouter)
+app.use('/evergo/category',categoryRouter)
+app.use('/evergo/file',uploadRouter); 
 
 
 connectDB()
