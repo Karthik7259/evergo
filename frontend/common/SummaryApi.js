@@ -1,5 +1,3 @@
-import upload from "../../backend/middleware/multer";
-
 
 export const baseurl= 'http://localhost:8080';
 
