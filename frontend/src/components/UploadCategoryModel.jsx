@@ -22,6 +22,14 @@ const UploadCategoryModel = ({close}) => {
 
     }
 
+  const handleUploadCategoryImage = (e) => {
+       const file = e.target.files[0];
+
+         if (!file) {
+            return 
+         }
+         
+  }
 
 
   return (
@@ -62,7 +70,7 @@ const UploadCategoryModel = ({close}) => {
                             `}>
                                 Upload Image
                             </div>
-                            <input type='file'  id='uploadCategoryImage' className='hidden'/>
+                            <input onChange={handleUploadCategoryImage} type='file'  id='uploadCategoryImage' className='hidden'/>
                             </label>
                            
                            </div>
