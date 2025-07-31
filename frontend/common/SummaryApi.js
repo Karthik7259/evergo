@@ -51,6 +51,10 @@ const SummaryApi = {
     uploadImage : {
         url :'/evergo/file/upload',
         method: 'post',
+    },
+    getCategory : {
+        url:'/evergo/category/get',
+        method:'get'
     }
 
 }

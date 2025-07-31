@@ -1,9 +1,29 @@
 import React, { useState } from 'react'
 import UploadCategoryModel from '../components/UploadCategoryModel'
+import { useEffect } from 'react';
+
 
 const Categorypage = () => {
   const [openUploadModel, setOpenUploadModel] =useState(false);
+ const [Loading, setLoading] = useState(false);
 
+  const fetchCategory =async   () => {
+    try{
+       setLoading(true);
+
+   
+
+    }catch(err){
+      
+    }finally{
+      setLoading(false);
+    }
+  }
+
+
+  useEffect(()=>{
+    fetchCategory();
+  },[])
 
 
   return (

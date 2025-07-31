@@ -43,4 +43,4 @@ const UploadImageController = async (req, res) => {
     
 
 
-export default UploadImageController
+export default UploadImageController;

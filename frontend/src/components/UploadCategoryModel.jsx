@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import { IoClose } from 'react-icons/io5';
 import uploadImage from '../../utils/Uploadimage';
+import Axios from '../../utils/Axios';
+import SummaryApi from '../../common/SummaryApi';
+import AxiosToastError from '../../utils/AxiosToastError';
+import toast from 'react-hot-toast';
 
 
 const UploadCategoryModel = ({close}) => {
@@ -8,6 +12,8 @@ const UploadCategoryModel = ({close}) => {
         name: "",
         image: ""
     });
+
+    const [loading ,setLoading] = useState(false);
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;   
@@ -19,8 +25,28 @@ const UploadCategoryModel = ({close}) => {
         })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        try{
+          setLoading(true);
+         const response=await Axios({
+              ...SummaryApi.addCategory,
+              data:data
+         })
+
+         const {data:responseData} = response;
+
+         if(responseData.success){
+            toast.success(responseData.message);
+           
+            close();
+         }
+
+        }catch(err){
+             AxiosToastError(err);
+        }finally{
+          setLoading(false);
+        }
 
     }
 
@@ -99,8 +125,8 @@ data.image ? (
                                 
                             </div>
                             <label htmlFor="uploadCategoryImage">
-                                  <div  className={`border ${!data.name ? "bg-grey-400":"bg-amber-400" }
-                            px-4 py-2 rounded cursor-pointer
+                                  <div  className={`border ${ !data.name ? "bg-grey-300":"border-amber-200" }
+                            px-4 py-2 rounded cursor-pointer hover:bg-amber-400 border font-medium
                             `}>
                                 Upload Image
                             </div>
@@ -109,6 +135,22 @@ data.image ? (
                            
                            </div>
                        </div>
+
+
+
+                        <button
+                         className={
+                          `
+                          ${data.name  && data.image ? "bg-amber-400" : "bg-grey-300"}
+
+                          py-2 
+                          font-semibold
+                          hover:bg-primary
+
+                          
+                          `
+                         }
+                        >Add Category</button>
                   </form>
                </div>
     </section>

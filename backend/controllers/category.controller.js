@@ -33,3 +33,23 @@ export const AddCategoryController = async (req, res) => {
     }   
 
 }
+
+
+export const getCategoryController = async (req, res) => {
+
+    try{
+
+     const data=await CategoryModel.find();
+    
+
+
+
+     return res.status(200).json({ message: "Category fetched successfully", data: data, error: false, success: true });
+    
+
+
+
+    }catch(err){
+        res.status(500).json({ message: err.message , error: true, success: false });
+    }   
+}
