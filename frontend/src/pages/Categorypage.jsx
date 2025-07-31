@@ -1,22 +1,23 @@
 import React, { useState } from 'react'
 import UploadCategoryModel from '../components/UploadCategoryModel'
 import { useEffect } from 'react';
+import Loading from '../components/Loading';
 
 
 const Categorypage = () => {
   const [openUploadModel, setOpenUploadModel] =useState(false);
- const [Loading, setLoading] = useState(false);
+ const [loading, setLoading] = useState(true);
 
   const fetchCategory =async   () => {
     try{
-       setLoading(true);
+      //  setLoading(true);
 
    
 
     }catch(err){
-      
+
     }finally{
-      setLoading(false);
+      // setLoading(false);
     }
   }
 
@@ -33,6 +34,12 @@ const Categorypage = () => {
        <button onClick={()=>setOpenUploadModel(true)} className='text-sm border border-[#ece75f] hover:bg-[#e6cc00] px-3 py-1 rounded '>Add Category</button>
 
     </div>
+
+    {
+       loading && (
+        <Loading />
+      )
+    }
 
 {
     openUploadModel && (
