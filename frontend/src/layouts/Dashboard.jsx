@@ -8,7 +8,7 @@ const Dashboard = () => {
       <div className='container mx-auto p-3 grid lg:grid-cols-[250px_1fr]  '>             
              
                  {/* left for menu */}
-                   <div className='py-4 sticky top-24 overflow-y-auto hidden lg:block border-r '>
+                   <div className='py-4 sticky top-24 max-h-[calc(100vh-100px)] overflow-y-auto hidden lg:block border-r '>
                       <UserMenu/>
                    </div>
 
