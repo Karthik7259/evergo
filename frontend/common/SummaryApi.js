@@ -55,6 +55,10 @@ const SummaryApi = {
     getCategory : {
         url:'/evergo/category/get',
         method:'get'
+    },
+    updateCategory : {
+        url:'/evergo/category/update',
+        method:'put'
     }
 
 }

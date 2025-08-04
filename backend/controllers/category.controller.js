@@ -53,3 +53,24 @@ export const getCategoryController = async (req, res) => {
         res.status(500).json({ message: err.message , error: true, success: false });
     }   
 }
+
+export const updateCategoryController = async (req, res) => {
+
+    try{
+       
+        const  {categoryId,name,image} = req.body;
+            
+        const update =await CategoryModel.updateOne({
+            _id: categoryId
+        },{
+            name,
+            image
+        })
+
+ 
+        return res.status(200).json({ message: "Category updated successfully", data: update, error: false, success: true });
+
+    }catch(err){
+        return res.status(500).json({ message: err.message , error: true, success: false });
+    }   
+}
