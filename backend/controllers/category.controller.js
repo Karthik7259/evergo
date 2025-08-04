@@ -58,10 +58,10 @@ export const updateCategoryController = async (req, res) => {
 
     try{
        
-        const  {categoryId,name,image} = req.body;
+        const  {_id,name,image} = req.body;
             
         const update =await CategoryModel.updateOne({
-            _id: categoryId
+            _id: _id
         },{
             name,
             image
