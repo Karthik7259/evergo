@@ -58,20 +58,21 @@ const Categorypage = () => {
   )
 }
 
-<div className='p-4 grid grid-cols-4 '>
+<div className='p-3 grid grid-cols-2 md:grid-cols-3 gap-4  lg:grid-cols-5 lg:gap-0 '>
   {
   CategoryData.map((category,index) => {
     return(
       
 
-           <div className='w-48 h-48 bg-[#ece75f]  rounded shadow '>
+           <div className='w-32 h-48  bg-white flex flex-col items-center justify-between
+              rounded shadow '>
             <img
          alt={category.name}
          src={category.image}
-         className='w-40 h-40 object-scale-down ml-auto mr-auto mt-2 rounded'
+         className='w-full  object-scale-down mt-3 rounded'
          key={index}
          />
-         <p className='text-center text-sm '>{category.name}</p>
+         <p className='text-center text-sm mb-2.5 '>{category.name}</p>
 
            </div>
 
