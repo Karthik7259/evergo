@@ -59,7 +59,12 @@ const SummaryApi = {
     updateCategory : {
         url:'/evergo/category/update',
         method:'put'
-    }
+    },
+    deleteCategory : {
+        url:'/evergo/category/delete',
+        method:'delete'
+    },
+   
 
 }
 
