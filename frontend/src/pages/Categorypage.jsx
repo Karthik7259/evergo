@@ -2,22 +2,26 @@ import React, { useState } from 'react'
 import UploadCategoryModel from '../components/UploadCategoryModel'
 import { useEffect } from 'react';
 import Loading from '../components/Loading';
+import Nodata from '../components/Nodata';
 
 
 const Categorypage = () => {
   const [openUploadModel, setOpenUploadModel] =useState(false);
- const [loading, setLoading] = useState(true);
+ const [loading, setLoading] = useState(false);
+ const [CategoryData, setCategoryData] = useState([]);
+
+ 
 
   const fetchCategory =async   () => {
     try{
-      //  setLoading(true);
+       setLoading(true);
 
    
 
     }catch(err){
 
     }finally{
-      // setLoading(false);
+      setLoading(false);
     }
   }
 
@@ -35,11 +39,21 @@ const Categorypage = () => {
 
     </div>
 
+
+{
+  !CategoryData[0] && !loading && (
+    <Nodata/>
+  )
+}
+    
     {
        loading && (
         <Loading />
       )
     }
+
+
+
 
 {
     openUploadModel && (
