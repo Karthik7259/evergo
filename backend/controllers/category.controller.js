@@ -1,5 +1,6 @@
 import CategoryModel from "../models/category.model.js";
-
+import subCategoryModel from "../models/subCategory.model.js";
+import ProductModel from "../models/product.model.js";
 export const AddCategoryController = async (req, res) => {
 
 
@@ -70,6 +71,37 @@ export const updateCategoryController = async (req, res) => {
  
         return res.status(200).json({ message: "Category updated successfully", data: update, error: false, success: true });
 
+    }catch(err){
+        return res.status(500).json({ message: err.message , error: true, success: false });
+    }   
+}
+
+export const deleteCategoryController = async (req, res) => {
+
+    try{
+        const { _id } = req.body;
+const checkSubCategory = await subCategoryModel.find({
+    category: {
+        "$in": [_id]
+    }
+}).countDocuments();
+const checkProduct = await ProductModel.find({
+    category: {
+        "$in": [_id]
+    }
+}).countDocuments();
+
+if(checkSubCategory > 0 || checkProduct > 0){
+    return res.status(400).json({ message: " Category can't be deleted", error: true, success: false });
+}
+
+        const deleteCategory = await CategoryModel.deleteOne({ _id: _id })
+
+        if(!deleteCategory){
+            return res.status(500).json({ message: "Not Deleted", error: true, success: false });
+        }
+        return res.status(200).json({ message: "Category deleted successfully", data: deleteCategory, error: false, success: true });
+        ;
     }catch(err){
         return res.status(500).json({ message: err.message , error: true, success: false });
     }   
