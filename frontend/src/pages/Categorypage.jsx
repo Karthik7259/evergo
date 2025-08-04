@@ -5,6 +5,7 @@ import Loading from '../components/Loading';
 import Nodata from '../components/Nodata';
 import SummaryApi from '../../common/SummaryApi';
 import Axios from '../../utils/Axios';
+import EditCategory from '../components/EditCategory';
 
 
 
@@ -12,7 +13,11 @@ const Categorypage = () => {
   const [openUploadModel, setOpenUploadModel] =useState(false);
  const [loading, setLoading] = useState(false);
  const [CategoryData, setCategoryData] = useState([]);
-
+ const [openEdit,setOpenEdit] = useState(false);
+ const [editCategoryData, setEditCategoryData] = useState({
+    name: "",
+    image: ""
+ });
  
 
   const fetchCategory =async   () => {
@@ -64,16 +69,24 @@ const Categorypage = () => {
     return(
       
 
-           <div className='w-32 h-48  bg-white flex flex-col items-center justify-between
+           <div className='w-43 h-56  bg-white flex flex-col items-center justify-between
               rounded shadow '>
             <img
          alt={category.name}
          src={category.image}
-         className='w-full  object-scale-down mt-3 rounded'
+         className='w-full h-32 object-scale-down mt-3 rounded'
          key={index}
          />
          <p className='text-center text-sm mb-2.5 '>{category.name}</p>
-
+ 
+             <div className=' flex items-center justify-between  w-full px-2 gap-2 mb-2 '>
+              
+              <button onClick={() =>{ setOpenEdit(true) 
+              setEditCategoryData(category)}} 
+              
+              className='flex-1 bg-green-100 hover:bg-green-200 text-green-600 font-medium py-1 rounded '>Edit</button>
+              <button className='flex-1 bg-red-100 hover:bg-red-200 text-red-600 font-medium py-1 rounded'>Delete</button>
+             </div>
            </div>
 
          
@@ -98,6 +111,15 @@ const Categorypage = () => {
       <UploadCategoryModel fetchData={fetchCategory} close={()=>setOpenUploadModel(false)}/>
     )
 }
+
+{
+  openEdit && (
+    <EditCategory data={editCategoryData} close={()=>setOpenEdit(false)} fetchData={fetchCategory} />
+  ) 
+}
+
+
+
    </section>
   )
 }
