@@ -75,7 +75,6 @@ const router= createBrowserRouter([
               },{
                 path:'category',
                 element: <AdminPermission> <Categorypage/> </AdminPermission>
-             
               },{
                 path:'subcategory',
                 element:<AdminPermission> <SubCategorypage/> </AdminPermission>
