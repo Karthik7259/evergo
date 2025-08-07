@@ -97,15 +97,18 @@ const UploadSubCategoryModel = ({close}) => {
                  
                  </div>
              </div>
-                <div className='grid gap-1 '> 
+                {/* <div className='grid gap-1 '> 
                        <label htmlFor="">Select Category</label>    
                        <select 
-                       className='bg-blue-50 border p-3  '
+                       className='bg-blue-50 border p-3 
+                        '
                        >
                         <option value={""}>Select Category</option>
                        </select>
-                </div>
-                 <div className='border focus-within:border-[#2296bf]   '>
+                </div> */}
+                <div className='grid gap-1 '>
+                  <label htmlFor="">Select Category</label>
+                   <div className='border focus-within:border-[#2296bf]  rounded  '>
                    {/* display value */}
 
            
@@ -113,13 +116,14 @@ const UploadSubCategoryModel = ({close}) => {
                    {/* select category */}
                    <select
                    
-                    className='w-full p-2 bg-transparent
-                '
+                    className='w-full p-2 bg-transparent outline-none '
                    >
-                     <option value={""} disabled>Select Category</option>
+                     <option value={""} disabled >Select Category</option>
 
                    </select>
                  </div>
+                </div> 
+                 
 
 
          </form>
