@@ -1,7 +1,8 @@
 import React ,{ useState } from 'react'
 import { IoClose } from 'react-icons/io5';
+import uploadImage from '../../utils/Uploadimage';
  
-const UploadSubCategoryModel = () => {
+const UploadSubCategoryModel = ({close}) => {
   const [subCategoryData, setSubCategoryData] = useState({
     name: '',
     image: '',
@@ -20,6 +21,29 @@ const UploadSubCategoryModel = () => {
      })
   }
 
+  const handleUploadSubCategoryImage = async(e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      return;
+    }
+
+
+     const Response = await uploadImage(file);
+
+         const {data : ImageResponse} = Response;
+
+          setSubCategoryData((prevData) => {
+            return {
+              ...prevData,
+              image: ImageResponse.data.url
+            };
+          });
+
+
+  }
+     
+
+
   return (
    <section className=' fixed top-0 right-0 bottom-0 left-0 bg-neutral-800/70 z-50 flex justify-center items-center'>
          <div 
@@ -27,7 +51,7 @@ const UploadSubCategoryModel = () => {
          >
         <div className='flex  items-center justify-between  gap-3 '>
             <h1 className='font-semibold'>Add Sub Category </h1>
-               <button>
+               <button onClick={close}>
                      <IoClose size={25}/>
 
                </button>
@@ -54,25 +78,52 @@ const UploadSubCategoryModel = () => {
                             !subCategoryData.image ? (
                               <p className='text-sm text-neutral-500'>No image selected</p>
                             ) : (
-                              <img src={subCategoryData.image} alt="Sub Category" className='w-full h-full object-cover' /> 
+                               <img src={subCategoryData.image} alt="Subcategory" className='w-full h-full object-scale-down' />
                             )
 
 
                          }
 
                  </div>
-                 <button className='px-4 py-1 border
-                  border-amber-100 text-amber-200 hover:bg-primary-200 hover:text-neutral-900'>
+                 <label htmlFor="uploadSubCategoryImage">
+                  <div className='px-4 py-1 border 
+                  border-amber-300  text-amber-400 rounded hover:bg-amber-300 hover:text-neutral-900 cursor-pointer '>
                   upload image
-                 </button>
+                 </div>
+                 <input type="file" id="uploadSubCategoryImage"  className='hidden'
+                  onChange={handleUploadSubCategoryImage}
+                 />
+                 </label>
+                 
                  </div>
              </div>
+                <div className='grid gap-1 '> 
+                       <label htmlFor="">Select Category</label>    
+                       <select 
+                       className='bg-blue-50 border p-3  '
+                       >
+                        <option value={""}>Select Category</option>
+                       </select>
+                </div>
+                 <div className='border focus-within:border-[#2296bf]   '>
+                   {/* display value */}
+
+           
+
+                   {/* select category */}
+                   <select
+                   
+                    className='w-full p-2 bg-transparent
+                '
+                   >
+                     <option value={""} disabled>Select Category</option>
+
+                   </select>
+                 </div>
+
 
          </form>
-
-
          </div>
-
     </section>
   )
 }
