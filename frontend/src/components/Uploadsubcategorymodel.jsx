@@ -17,7 +17,9 @@ const UploadSubCategoryModel = ({ close }) => {
   console.log("allCategory", allCategory);
 
   const handleChange = (e) => {
+    console.log("e value",e.target.value);
     const { name, value } = e.target;
+    console.log("name",name);
     setSubCategoryData((prev) => {
       return {
         ...prev,
@@ -57,7 +59,7 @@ const UploadSubCategoryModel = ({ close }) => {
     }
    })
   }
-  
+
   return (
     <section className=' fixed top-0 right-0 bottom-0 left-0 bg-neutral-800/70 z-50 flex justify-center items-center'>
       <div
@@ -66,7 +68,7 @@ const UploadSubCategoryModel = ({ close }) => {
         <div className='flex  items-center justify-between  gap-3 '>
           <h1 className='font-semibold'>Add Sub Category </h1>
           <button onClick={close}>
-            <IoClose size={25} />
+            <IoClose  size={25} />
 
           </button>
 
@@ -77,9 +79,10 @@ const UploadSubCategoryModel = ({ close }) => {
 
 
           <div className='grid gap-1 '>
-            <label htmlFor="name"> Name</label>
+            <label htmlFor="name">Name</label>
             <input
               id='name'
+              name='name'
               value={subCategoryData.name}
               onChange={handleChange}
               className='p-3 bg-blue-50 outline-none focus-within:border-[#2296bf]    ' />
@@ -131,7 +134,7 @@ const UploadSubCategoryModel = ({ close }) => {
                       <p key={cat._id + "selectedValue"} className='bg-white shadow-md px-1 m-1 flex items-center gap-2   '>
                         
                         {cat.name}
-                        <div className='cursor-pointer' onClick={()=>(handleRemoveCategorySelected(cat._id))} >
+                        <div className='cursor-pointer  hover:text-red-600 ' onClick={()=>(handleRemoveCategorySelected(cat._id))} >
                                 <IoClose size={20} />
                         </div>
                       </p>
@@ -173,6 +176,17 @@ const UploadSubCategoryModel = ({ close }) => {
 
 
 
+      <button
+      className={` px-4 py-2 border  w-full
+         ${subCategoryData?.name && subCategoryData?.image && subCategoryData?.category[0] ? "bg-amber-400 hover:bg-amber-300" : "bg-gray-200"}
+         font-semibold
+
+        `}
+      >
+        Submit
+      </button>
+
+ 
         </form>
       </div>
     </section>
