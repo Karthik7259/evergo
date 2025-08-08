@@ -46,5 +46,35 @@ try{
 
 }
 
+export const getSubCategoryController = async (req,res)=>{
+  try{
+
+    const data=await subCategoryModel.find().sort({createdAt:-1})
+
+
+    return res.json({
+      message:"Sub-categories data",
+      data:data,
+      error : false,
+      success: true
+    })
+
+
+
+
+
+
+
+
+
+
+  }catch(error){
+    return res.status(500).json({
+        message: error.message || error,
+        error: true,
+        success: false
+    });
+  }
+}
 
 
