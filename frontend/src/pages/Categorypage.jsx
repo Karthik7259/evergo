@@ -31,7 +31,13 @@ const Categorypage = () => {
 
   const allCategory=useSelector((state) => state.product.allCategory);
 
-  console.log("allCategory", allCategory);
+ 
+
+
+
+  useEffect(() => {
+    setCategoryData(allCategory);
+  }, [allCategory]);
 
   // const fetchCategory =async   () => {
   //   try{
