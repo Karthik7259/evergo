@@ -10,6 +10,7 @@ import connectDB from './db/connectDB.js';
 import userRouter from './routes/user.routes.js';
 import categoryRouter from './routes/category.routes.js'; // Assuming you have a category router
 import uploadRouter from './routes/upload.router.js'; // Assuming you have an upload router
+import subCategoryRouter from './routes/subcategory.route.js';
 
 
 const app = express();
@@ -38,7 +39,7 @@ app.get("/",(req, res) => {
 app.use('/evergo/user',userRouter)
 app.use('/evergo/category', categoryRouter);
 app.use('/evergo/file', uploadRouter); // Assuming you have a category router
-
+app.use('/evergo/sub-category',subCategoryRouter); // Assuming you have a sub-category router
 
 connectDB()
   .then(() => {
