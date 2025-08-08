@@ -60,6 +60,16 @@ const UploadSubCategoryModel = ({ close }) => {
    })
   }
 
+  const handleSubmitSubCategory = async (e) => {
+    try{
+
+    }catch(error){
+    }}
+
+
+
+
+
   return (
     <section className=' fixed top-0 right-0 bottom-0 left-0 bg-neutral-800/70 z-50 flex justify-center items-center'>
       <div
@@ -75,7 +85,7 @@ const UploadSubCategoryModel = ({ close }) => {
 
         </div>
 
-        <form className='my-3' >
+        <form className='my-3 grid gap-3' onSubmit={handleSubmitSubCategory} >
 
 
           <div className='grid gap-1 '>
@@ -177,7 +187,7 @@ const UploadSubCategoryModel = ({ close }) => {
 
 
       <button
-      className={` px-4 py-2 border  w-full
+      className={` px-4 py-2 border  
          ${subCategoryData?.name && subCategoryData?.image && subCategoryData?.category[0] ? "bg-amber-400 hover:bg-amber-300" : "bg-gray-200"}
          font-semibold
 
