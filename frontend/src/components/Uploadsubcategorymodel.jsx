@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import { IoClose } from 'react-icons/io5';
 import uploadImage from '../../utils/Uploadimage';
 import { useSelector } from 'react-redux';
+import Axios from '../../utils/Axios';
+import SummaryApi from '../../common/SummaryApi';
+import toast from 'react-hot-toast';
+import AxiosToastError from '../../utils/AxiosToastError';
 
 
 const UploadSubCategoryModel = ({ close }) => {
@@ -61,10 +65,37 @@ const UploadSubCategoryModel = ({ close }) => {
   }
 
   const handleSubmitSubCategory = async (e) => {
+    e.preventDefault();
     try{
+      const response= await Axios({
+         ...SummaryApi.createSubCategory,
+         data: subCategoryData
+      })
+
+
+      const {data : responseData} = response;
+
+      console.log("responseData",responseData);
+
+      if(responseData.success){
+          toast.success(responseData.message);
+           if(close){
+            close();
+           }
+
+
+      }
+
 
     }catch(error){
-    }}
+        
+      AxiosToastError(error);
+    }
+  
+
+
+
+    }
 
 
 
@@ -79,8 +110,7 @@ const UploadSubCategoryModel = ({ close }) => {
           <h1 className='font-semibold'>Add Sub Category </h1>
           <button onClick={close}>
             <IoClose  size={25} />
-
-          </button>
+      </button>
 
 
         </div>
@@ -171,7 +201,7 @@ const UploadSubCategoryModel = ({ close }) => {
                   }
                 }}
               >
-                <option value={""} disabled >Select Category</option>
+                <option value={""}  >Select Category</option>
                 {
                   allCategory.map((category) => (
                     <option key={category._id + "subCategory"} value={category?._id}>
