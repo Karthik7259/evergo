@@ -1,10 +1,37 @@
 import React, { useState } from 'react'
 import UploadSubCategoryModel from '../components/uploadSubCategoryModel'
+import AxiosToastError from '../../utils/AxiosToastError';
+import Axios from '../../utils/Axios';
+import SummaryApi from '../../common/SummaryApi';
 
 const SubCategorypage = () => {
 
  const [openAddSubCategory, setOpenAddSubCategory] = useState(false);
+ const [data,setData]=useState([])
 
+ const fetchSubCategory = async()=>{
+  try{
+
+     const response=await Axios({
+      ...SummaryApi.getSubcategory
+
+     })
+      const {data : responseData} = response
+
+      if(responseData.success){
+        
+        setData(responseData.data)
+      }
+
+
+
+
+
+
+  }catch(error){
+    AxiosToastError(error)
+  }
+ }
 
 
 
