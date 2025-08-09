@@ -61,7 +61,7 @@ const SubCategorypage = () => {
            <img 
         src={row.original.image}
         alt={row.original.name}
-        className='w-8 h-8'
+        className='w-8 h-8 cursor-pointer'
         onClick={ () => {
           setImageUrl(row.original.image)
         }}
