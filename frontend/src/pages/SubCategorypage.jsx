@@ -5,12 +5,14 @@ import Axios from '../../utils/Axios';
 import SummaryApi from '../../common/SummaryApi';
 import DisplayTable from '../components/DisplayTable';
 import {createColumnHelper} from '@tanstack/react-table'
+import ViewImage from '../components/ViewImage';
 
 const SubCategorypage = () => {
 
  const [openAddSubCategory, setOpenAddSubCategory] = useState(false);
  const [data,setData]=useState([])
  const [loading, setLoading] = useState(false);
+ const [ImageUrl, setImageUrl] = useState("")
 
 
  const columnHelper=createColumnHelper();
@@ -60,6 +62,9 @@ const SubCategorypage = () => {
         src={row.original.image}
         alt={row.original.name}
         className='w-8 h-8'
+        onClick={ () => {
+          setImageUrl(row.original.image)
+        }}
         />
         </div>
       }
@@ -105,6 +110,12 @@ const SubCategorypage = () => {
       />
   )
 
+}
+
+{
+  ImageUrl && (
+    <ViewImage url={ImageUrl} close={() => setImageUrl("")} />
+  )
 }
 
 
