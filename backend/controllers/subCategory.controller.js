@@ -143,3 +143,6 @@ export const deleteSubCategoryController = async (req,res)=>{
 
   }
 }
+
+
+

@@ -10,6 +10,7 @@ import { HiPencil } from 'react-icons/hi';
 import {MdDelete} from 'react-icons/md'
 import EditSubCategory from '../components/EditSubCategory';
 import CofirmBox from '../components/ConfirmBox';
+import toast from 'react-hot-toast';
 
 const SubCategorypage = () => {
 
@@ -30,7 +31,27 @@ const SubCategorypage = () => {
 
 
 
-const handleDeleteSubCategory  = ()=>{
+const handleDeleteSubCategory  = async()=>{
+    try{
+      const response=await Axios({
+        ...SummaryApi.deleteSubcategory,
+        data: deleteSubCategory
+      })
+
+      const {data : responseData} = response
+
+      if(responseData.success){
+        toast.success(responseData.message)
+        fetchSubCategory()
+        setOpenDeleteConfirmBox(false)
+        setDeleteSubCategory({
+          _id: ""
+        })
+      }
+
+    }catch(error){  
+      AxiosToastError(error)
+    }
 
 }
 
@@ -167,7 +188,7 @@ const handleDeleteSubCategory  = ()=>{
 
     </div>
 
-     <div>
+     <div className='overflow-auto w-full max-w-[95vw]'>
 
   <DisplayTable 
   
