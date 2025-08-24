@@ -9,6 +9,7 @@ import ViewImage from '../components/ViewImage';
 import { HiPencil } from 'react-icons/hi';
 import {MdDelete} from 'react-icons/md'
 import EditSubCategory from '../components/EditSubCategory';
+import CofirmBox from '../components/ConfirmBox';
 
 const SubCategorypage = () => {
 
@@ -21,7 +22,36 @@ const SubCategorypage = () => {
   _id : "",
  })
 
+ const [deleteSubCategory, setDeleteSubCategory] = useState({
+   _id:""
+ })
+
+ const [openDeleteConfirmBox, setOpenDeleteConfirmBox] = useState(false)
+
+
+
+const handleDeleteSubCategory  = ()=>{
+
+}
+
+
+
+
+
+
+
+
+
+
  const columnHelper=createColumnHelper();
+
+
+
+
+
+
+
+
 
  const fetchSubCategory = async()=>{
   try{
@@ -107,7 +137,15 @@ const SubCategorypage = () => {
           className='p-2 bg-green-100 rounded-full hover:text-green-600'>
               <HiPencil size={20} />
           </button>
-          <button className='p-2 bg-red-100 rounded-full text-red-500 hover:text-red-600'>
+          <button 
+          onClick={()=>{
+            setOpenDeleteConfirmBox(true)
+            setDeleteSubCategory(row.original)
+          }}
+          
+          
+          
+          className='p-2 bg-red-100 rounded-full text-red-500 hover:text-red-600'>
               <MdDelete size={20} />
           </button>
          </div>
@@ -171,6 +209,16 @@ const SubCategorypage = () => {
   )
 }
 
+
+{
+  openDeleteConfirmBox && (
+    <CofirmBox
+     cancel={() => setOpenDeleteConfirmBox(false)}
+     close={() => setOpenDeleteConfirmBox(false)}
+     confirm={handleDeleteSubCategory}
+    />
+  )
+}
 
 
 
