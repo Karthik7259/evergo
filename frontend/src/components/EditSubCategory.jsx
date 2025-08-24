@@ -1,17 +1,5 @@
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState } from 'react'
 import { IoClose } from 'react-icons/io5';
 import uploadImage from '../../utils/Uploadimage';
@@ -22,8 +10,9 @@ import toast from 'react-hot-toast';
 import AxiosToastError from '../../utils/AxiosToastError';
 
 
-const EditSubCategory = ({ close ,data}) => {
+const EditSubCategory = ({ close ,data,fetchData}) => {
   const [subCategoryData, setSubCategoryData] = useState({
+    _id:data._id,
     name: data.name,
     image: data.image,
     category: data.category || []
@@ -82,10 +71,8 @@ const EditSubCategory = ({ close ,data}) => {
     e.preventDefault();
     try{
       const response= await Axios({
-        //  ...SummaryApi.createSubCategory,
-
-        
-         data: subCategoryData
+        ...SummaryApi.updateSubcategory,
+        data: subCategoryData
       })
 
 
@@ -97,6 +84,10 @@ const EditSubCategory = ({ close ,data}) => {
           toast.success(responseData.message);
            if(close){
             close();
+           }
+
+           if(fetchData){
+             fetchData();
            }
 
 

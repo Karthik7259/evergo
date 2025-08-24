@@ -163,7 +163,11 @@ const SubCategorypage = () => {
 
 {
   openEdit && (
-    <EditSubCategory data={editData}  close={() => setOpenEdit(false)} />
+    <EditSubCategory 
+    data={editData} 
+     close={() => setOpenEdit(false)} 
+     fetchData={fetchSubCategory}
+   />
   )
 }
 

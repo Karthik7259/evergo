@@ -71,6 +71,10 @@ const SummaryApi = {
     getSubcategory : {
         url:'/evergo/sub-category/get',
         method:'post'
+    },
+    updateSubcategory : {
+        url:'/evergo/sub-category/update',
+        method:'put'
     }
    
 
