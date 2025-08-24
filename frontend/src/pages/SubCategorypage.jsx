@@ -16,8 +16,10 @@ const SubCategorypage = () => {
  const [data,setData]=useState([])
  const [loading, setLoading] = useState(false);
  const [ImageUrl, setImageUrl] = useState("")
- const [openEditSubCategory, setOpenEditSubCategory] = useState(false)
-
+ const [openEdit, setOpenEdit] = useState(false)
+ const [editData, setEditData] = useState({
+  _id : "",
+ })
 
  const columnHelper=createColumnHelper();
 
@@ -94,7 +96,15 @@ const SubCategorypage = () => {
        cell : ({row})=>{
          return (
          <div className='flex items-center justify-center gap-3 '>
-          <button className='p-2 bg-green-100 rounded-full hover:text-green-600'>
+           
+          <button 
+          onClick={() => {
+             setOpenEdit(true);
+             setEditData(
+              row.original
+             );
+           }}
+          className='p-2 bg-green-100 rounded-full hover:text-green-600'>
               <HiPencil size={20} />
           </button>
           <button className='p-2 bg-red-100 rounded-full text-red-500 hover:text-red-600'>
@@ -152,7 +162,9 @@ const SubCategorypage = () => {
 
 
 {
-  <EditSubCategory />
+  openEdit && (
+    <EditSubCategory data={editData}  close={() => setOpenEdit(false)} />
+  )
 }
 
 
