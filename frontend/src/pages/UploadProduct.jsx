@@ -3,6 +3,10 @@ import { FaCloudUploadAlt } from 'react-icons/fa'
 import uploadImage from '../../utils/Uploadimage'
 
 import Loading from '../components/Loading'
+import ViewImage from '../components/ViewImage'
+import { MdDelete } from 'react-icons/md'
+import { useSelector } from 'react-redux'
+
 
 const UploadProduct = () => {
   const [data,setData] = useState({
@@ -19,6 +23,8 @@ const UploadProduct = () => {
 
   })
  const [imageLoading, setImageLoading] = useState(false);
+ const [ViewImageURL, setViewImageURL] = useState("");
+ const allCategory=useSelector(state=>state.product.allCategory)
 
 const handleChange=(e)=>{
   const {name,value} = e.target;
@@ -48,6 +54,24 @@ setData((prevData)=>{
 
 setImageLoading(false);
 }
+
+
+const handleDeleteImage=async(index)=>{
+ data.image.splice(index,1)
+ setData((prevData)=>{
+   return {
+     ...prevData,
+     image: [...prevData.image]
+   }
+ })
+
+}
+
+
+
+
+
+
 
 
 
@@ -115,16 +139,20 @@ setImageLoading(false);
             </label>
 
                     {/*display uploaded images*/ }
-                 <div className='my-2 '
+                 <div className='flex flex-wrap gap-4  '
               >
 
                   {
                     data.image.map((img,index)=>{
                       return (
-                        <div key={img+index} className='h-20 w-20 min-w-20 bg-blue-50 border'>
+                        <div key={img+index} className='h-20 mt-1 w-20 min-w-20 bg-blue-50 border relative group '>
                           <img src={img} alt={`Uploaded Image ${index}`} 
-                          className='w-full h-full object-scale-down'
+                          className='w-full h-full object-scale-down cursor-pointer'
+                          onClick={()=>setViewImageURL(img)}
                           />
+                          <div onClick={()=>handleDeleteImage(index)} className='absolute bottom-0 right-0 p-1 bg-red-600 hover:bg-red-600 rounded text-white hidden group-hover:block cursor-pointer' >
+                            <MdDelete/>
+                          </div>
                         </div>
                       )
                     })
@@ -138,8 +166,45 @@ setImageLoading(false);
          
 
           </div>
+          <div className='grid  gap-1 '>
+             <label htmlFor="">Category</label>
+             <div>
+              <select 
+              className='bg-blue-50 border w-full p-2 rounded '
+              
+              >
+              <option value={""}>Select Category</option>
+              {
+                allCategory.map((c,index)=>{
+                  return (
+                    <option value={c._id}>{c.name}</option>
+                  )
+                })
+              }
+             </select>
+             </div>
+          </div>
         </form>
-    </div>
+     </div>
+
+
+
+
+
+{
+  ViewImageURL && (
+       <ViewImage url={ViewImageURL}
+        Close={()=>setViewImageURL("")}
+       />
+  )
+}
+
+
+
+
+
+
+
     </section>
   )
 }
