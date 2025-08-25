@@ -6,6 +6,7 @@ import Loading from '../components/Loading'
 import ViewImage from '../components/ViewImage'
 import { MdDelete } from 'react-icons/md'
 import { useSelector } from 'react-redux'
+import { IoClose } from 'react-icons/io5'
 
 
 const UploadProduct = () => {
@@ -26,6 +27,9 @@ const UploadProduct = () => {
  const [ViewImageURL, setViewImageURL] = useState("");
  const allCategory=useSelector(state=>state.product.allCategory)
 
+ const [selectCategory,setselectCategory] = useState("");
+ const [selectSubCategory,setselectSubCategory] = useState("");
+  const allSubCategory=useSelector(state=>state.product.allsubCategory)
 const handleChange=(e)=>{
   const {name,value} = e.target;
   setData((prevData)=>{return {
@@ -69,11 +73,24 @@ const handleDeleteImage=async(index)=>{
 
 
 
+const handleRemoveCategory=async(index)=>{
+  data.category.splice(index,1)
+  setData((prevData)=>{
+    return {
+      ...prevData,
+    }
+  })
+}
 
-
-
-
-
+const handleRemoveSubCategory=async(index)=>{
+  data.subCategory.splice(index,1)
+  setData((prevData)=>{
+    return {
+      ...prevData,
+      
+    }
+  })
+}
 
 
   return (
@@ -171,6 +188,21 @@ const handleDeleteImage=async(index)=>{
              <div>
               <select 
               className='bg-blue-50 border w-full p-2 rounded '
+              value={selectCategory}
+              onChange={(e)=>{
+                const value=e.target.value;
+                const category=allCategory.find(el=>el._id===value);
+                console.log(category);
+
+                setData((prevData)=>{
+                  return {
+                    ...prevData,
+                    category:[...prevData.category, category]
+                  }
+                })
+
+                 setselectCategory("");
+              }}
               
               >
               <option value={""}>Select Category</option>
@@ -182,8 +214,93 @@ const handleDeleteImage=async(index)=>{
                 })
               }
              </select>
+ 
+    <div className='flex flex-wrap gap-3 '>
+      {
+    data.category.map((c,index)=>{
+      return (
+        <div key={c._id+index+"product section"} className='text-sm flex items-center gap-1 bg-blue-50  mt-2  '>
+          <p>{c.name}</p>
+          <div className='hover:text-red-500 cursor-pointer ' onClick={()=>handleRemoveCategory(index)}>
+              <IoClose size={20} className='' />
+          </div>
+        </div>
+      )
+    })
+   }
+    </div>
+
+
+
+
+
+
+
+
              </div>
           </div>
+
+
+           <div className='grid  gap-1 '>
+             <label htmlFor="">SubCategory</label>
+             <div>
+              <select 
+              className='bg-blue-50 border w-full p-2 rounded '
+              value={selectSubCategory}
+              onChange={(e)=>{
+                const value=e.target.value;
+                const subCategory=allSubCategory.find(el=>el._id===value);
+                console.log(subCategory);
+
+                setData((prevData)=>{
+                  return {
+                    ...prevData,
+                    subCategory:[...prevData.subCategory, subCategory]
+                  }
+                })
+
+                 setselectSubCategory("");
+              }}
+              
+              >
+              <option value={""}>Select Category</option>
+              {
+                allSubCategory.map((c,index)=>{
+                  return (
+                    <option value={c._id}>{c.name}</option>
+                  )
+                })
+              }
+             </select>
+ 
+    <div className='flex flex-wrap gap-3 '>
+      {
+    data.subCategory.map((c,index)=>{
+      return (
+        <div key={c._id+index+"product section"} className='text-sm flex items-center gap-1 bg-blue-50  mt-2  '>
+          <p>{c.name}</p>
+          <div className='hover:text-red-500 cursor-pointer ' onClick={()=>handleRemoveSubCategory(index)}>
+              <IoClose size={20} className='' />
+          </div>
+        </div>
+      )
+    })
+   }
+    </div>
+
+
+
+
+
+
+
+
+             </div>
+          </div>
+         
+
+
+
         </form>
      </div>
 

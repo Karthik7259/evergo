@@ -7,7 +7,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import fetchUserDetails from '../utils/fetchUserDetails'
 import { setUserDetails } from './redux/userSlice'
 import { useDispatch } from 'react-redux'
-import { setAllCategory } from './redux/productSlice'
+import { setAllCategory,setAllSubCategory } from './redux/productSlice'
 import Axios from '../utils/Axios'
 import SummaryApi from '../common/SummaryApi'
 
@@ -50,14 +50,39 @@ function App() {
        
       }
     }
-  
-  
-  
+
+
+ const fetchSubCategory =async   () => {
+      try{
+        
+       const response =await Axios({
+        ...SummaryApi.getSubcategory
+
+       });
+       console .log("response", response);
+       const {data: responseData} = response;
+
+       if(responseData.success){
+         dispatch(setAllSubCategory(responseData.data));
+         // setCategoryData(responseData.data);
+       }
+
+
+      }catch(err){
+
+      }
+    }
+
+    
+          
+        
+    
 
 
   useEffect(() => {
     fetchUser();
     fetchCategory();
+    fetchSubCategory();
   },[])
 
   return (
