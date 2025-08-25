@@ -15,7 +15,7 @@ const UploadProduct = () => {
          image : [],
          category : [],
          subCategory:[],
-         unit :[],
+         unit :"",
          stock : "",
          price : "",
          discount: "",
@@ -30,6 +30,9 @@ const UploadProduct = () => {
  const [selectCategory,setselectCategory] = useState("");
  const [selectSubCategory,setselectSubCategory] = useState("");
   const allSubCategory=useSelector(state=>state.product.allsubCategory)
+   const [moreFields, setMoreFields] = useState([]);
+
+
 const handleChange=(e)=>{
   const {name,value} = e.target;
   setData((prevData)=>{return {
@@ -263,11 +266,11 @@ const handleRemoveSubCategory=async(index)=>{
               }}
               
               >
-              <option value={""}>Select Category</option>
+              <option value={""}>Select Sub Category</option>
               {
                 allSubCategory.map((c,index)=>{
                   return (
-                    <option value={c._id}>{c.name}</option>
+                    <option value={c?._id}>{c.name}</option>
                   )
                 })
               }
@@ -298,9 +301,71 @@ const handleRemoveSubCategory=async(index)=>{
              </div>
           </div>
          
+         <div className='grid gap-1 '>
+            <label htmlFor='unit'>Unit</label>
+            <input
+            id='unit'
+            type='text'
+            placeholder='Enter product unit'
+            name='unit'
+            value={data.unit}
+            onChange={handleChange}
+            required
+            className='bg-blue-50 p-2 outline-none border focus-within:border-amber-300 rounded '
+            />
+          </div>
 
 
+         <div className='grid gap-1 '>
+            <label htmlFor='stock'>Number of Stock</label>
+            <input
+            id='stock'
+            type='number'
+            placeholder='Enter product stock'
+            name='stock'
+            value={data.stock}
+            onChange={handleChange}
+            required
+            className='bg-blue-50 p-2 outline-none border focus-within:border-amber-300 rounded '
+            />
+          </div>
+      
+      <div className='grid gap-1 '>
+            <label htmlFor='price'>Price</label>
+            <input
+            id='price'
+            type='number'
+            placeholder='Enter product price'
+            name='price'
+            value={data.price}
+            onChange={handleChange}
+            required
+            className='bg-blue-50 p-2 outline-none border focus-within:border-amber-300 rounded '
+            />
+          </div>
 
+
+          <div className='grid gap-1 '>
+            <label htmlFor='discount'>Discount</label>
+            <input
+            id='discount'
+            type='number'
+            placeholder='Enter product discount'
+            name='discount'
+            value={data.discount}
+            onChange={handleChange}
+            required
+            className='bg-blue-50 p-2 outline-none border focus-within:border-amber-300 rounded '
+            />
+          </div>
+         
+
+          <div className='inline-block bg-amber-300 hover:bg-white  py-1 px-3  w-32  text-center font-semibold border border-amber-400 hover:text-neutral-900 cursor-pointer'>
+            Add Fields 
+
+            </div>
+   
+  
         </form>
      </div>
 
