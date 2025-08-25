@@ -7,6 +7,7 @@ import ViewImage from '../components/ViewImage'
 import { MdDelete } from 'react-icons/md'
 import { useSelector } from 'react-redux'
 import { IoClose } from 'react-icons/io5'
+import AddFieldComponent from '../components/AddFieldComponent'
 
 
 const UploadProduct = () => {
@@ -30,7 +31,9 @@ const UploadProduct = () => {
  const [selectCategory,setselectCategory] = useState("");
  const [selectSubCategory,setselectSubCategory] = useState("");
   const allSubCategory=useSelector(state=>state.product.allsubCategory)
-   const [moreFields, setMoreFields] = useState([]);
+   
+   const [openAddFields, setOpenAddFields] = useState(false);
+   const [FieldName,setFieldName] = useState("")
 
 
 const handleChange=(e)=>{
@@ -96,6 +99,18 @@ const handleRemoveSubCategory=async(index)=>{
 }
 
 
+const handleAddField=()=>{
+  setData((prevData)=>{
+    return {
+      ...prevData,
+      more_details: {...prevData.more_details, [FieldName]:""}
+    }
+  })
+
+  setFieldName("")
+  setOpenAddFields(false);
+}
+
   return (
     <section>
     <div className='p-2 font-semibold bg-white shadow-md flex items-center justify-between '> 
@@ -104,7 +119,7 @@ const handleRemoveSubCategory=async(index)=>{
     <div className='grid p-3 '>
         <form  className='grid gap-2'>
           <div className='grid gap-1 '>
-            <label htmlFor='name'>Name</label>
+            <label htmlFor='name' className=''>Name</label>
             <input
             id='name'
             type='text'
@@ -359,10 +374,44 @@ const handleRemoveSubCategory=async(index)=>{
             />
           </div>
          
+        {
+          /* add more fields */
+        }
 
-          <div className='inline-block bg-amber-300 hover:bg-white  py-1 px-3  w-32  text-center font-semibold border border-amber-400 hover:text-neutral-900 cursor-pointer'>
+       <div>
+        {
+          Object?.keys(data?.more_details).map((k,index)=>{
+               return(
+                <div className='grid gap-1 '>
+            <label htmlFor={k}>{k}</label>
+            <input
+            id={k}
+            type='text'
+            placeholder={`Enter product ${k}`}
+            value={data?.more_details[k]}
+            onChange={(e)=>{
+              const value = e.target.value;
+              setData((prevData) => ({
+                ...prevData,
+                more_details: {
+                  ...prevData.more_details,
+                  [k]: value
+                }
+              }));
+            }}   
+            required
+            className='bg-blue-50 p-2 outline-none border focus-within:border-amber-300 rounded '
+            />
+          </div>
+               )
+          })
+        }
+       </div>
+
+          <div 
+           onClick={() => setOpenAddFields(true)}
+          className='inline-block bg-amber-300 hover:bg-white  py-1 px-3  w-32  text-center font-semibold border border-amber-400 hover:text-neutral-900 cursor-pointer'>
             Add Fields 
-
             </div>
    
   
@@ -381,7 +430,23 @@ const handleRemoveSubCategory=async(index)=>{
   )
 }
 
-
+ {
+  openAddFields && 
+  (
+    <AddFieldComponent
+    
+    value={FieldName}
+    onChange={(e)=>{
+      setFieldName(e.target.value)
+    }}
+       sumbit={handleAddField}
+    close={() => setOpenAddFields(false)} 
+    
+    
+    
+    />
+  )
+ }
 
 
 
