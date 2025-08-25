@@ -44,6 +44,16 @@ const handleChange=(e)=>{
   }})
 }
 
+const handleSubmit =async(e)=>{ 
+  e.preventDefault();
+  try {
+    const response = await uploadProduct(data);
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 const handleUploadImage=async(e)=>{
   const file=e.target.files[0];
   if(!file) return;
@@ -117,9 +127,9 @@ const handleAddField=()=>{
        <h2 className='font-semibold'>Upload product </h2>
     </div>
     <div className='grid p-3 '>
-        <form  className='grid gap-2'>
+        <form  className='grid gap-4' onSubmit={handleSubmit} >
           <div className='grid gap-1 '>
-            <label htmlFor='name' className=''>Name</label>
+            <label htmlFor='name' className='font-medium'>Name</label>
             <input
             id='name'
             type='text'
@@ -132,7 +142,7 @@ const handleAddField=()=>{
             />
           </div>
           <div className='grid gap-1 '>
-            <label htmlFor='description'>Description</label>
+            <label htmlFor='description' className='font-medium'>Description</label>
             <textarea
             id='description'
             placeholder='Enter product description'
@@ -146,7 +156,7 @@ const handleAddField=()=>{
             />
           </div>
           <div>
-            <p>Image</p>
+            <p className='font-medium'>Image</p>
                 <div>
                   <label htmlFor='productImage' className='bg-neutral-100 h-24 border rounded flex justify-center items-center cursor-pointer'>
                   <div className='text-center flex justify-center items-center flex-col'>
@@ -202,7 +212,7 @@ const handleAddField=()=>{
 
           </div>
           <div className='grid  gap-1 '>
-             <label htmlFor="">Category</label>
+             <label className='font-medium'>Category</label>
              <div>
               <select 
               className='bg-blue-50 border w-full p-2 rounded '
@@ -260,7 +270,7 @@ const handleAddField=()=>{
 
 
            <div className='grid  gap-1 '>
-             <label htmlFor="">SubCategory</label>
+             <label className='font-medium'>SubCategory</label>
              <div>
               <select 
               className='bg-blue-50 border w-full p-2 rounded '
@@ -317,7 +327,7 @@ const handleAddField=()=>{
           </div>
          
          <div className='grid gap-1 '>
-            <label htmlFor='unit'>Unit</label>
+            <label htmlFor='unit' className='font-medium'>Unit</label>
             <input
             id='unit'
             type='text'
@@ -332,7 +342,7 @@ const handleAddField=()=>{
 
 
          <div className='grid gap-1 '>
-            <label htmlFor='stock'>Number of Stock</label>
+            <label htmlFor='stock' className='font-medium'>Number of Stock</label>
             <input
             id='stock'
             type='number'
@@ -378,12 +388,12 @@ const handleAddField=()=>{
           /* add more fields */
         }
 
-       <div>
+
         {
           Object?.keys(data?.more_details).map((k,index)=>{
                return(
                 <div className='grid gap-1 '>
-            <label htmlFor={k}>{k}</label>
+            <label htmlFor={k} className='font-medium' >{k}</label>
             <input
             id={k}
             type='text'
@@ -406,14 +416,18 @@ const handleAddField=()=>{
                )
           })
         }
-       </div>
+       
 
           <div 
            onClick={() => setOpenAddFields(true)}
-          className='inline-block bg-amber-300 hover:bg-white  py-1 px-3  w-32  text-center font-semibold border border-amber-400 hover:text-neutral-900 cursor-pointer'>
+          className='inline-block  hover:bg-amber-300 bg-white  py-1 px-3  w-32  text-center font-semibold border border-amber-400 hover:text-neutral-900 cursor-pointer'>
             Add Fields 
             </div>
    
+
+     <button className='bg-amber-200 hover:bg-amber-300 py-2 rounded font-semibold '>
+      Submit
+     </button>
   
         </form>
      </div>
