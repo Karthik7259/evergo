@@ -83,6 +83,10 @@ const SummaryApi = {
     createProduct:{
         url:'/evergo/product/create',
         method:'post'
+    },
+    getProduct:{
+        url:'/evergo/product/get',
+        method:'post'
     }
    
 

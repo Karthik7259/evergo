@@ -35,7 +35,7 @@ const UploadProduct = () => {
 
  const [selectCategory,setselectCategory] = useState("");
  const [selectSubCategory,setselectSubCategory] = useState("");
-  const allSubCategory=useSelector(state=>state.product.allsubCategory)
+  const allSubCategory=useSelector(state=>state.product.allSubCategory)
    
    const [openAddFields, setOpenAddFields] = useState(false);
    const [FieldName,setFieldName] = useState("")
@@ -72,9 +72,7 @@ const handleSubmit =async(e)=>{
       description : "",
       more_details:{}
     })
-    setViewImageURL("")
-    setOpenAddFields(false)
-    setFieldName("")
+   
   }
   
 
@@ -218,7 +216,7 @@ const handleAddField=()=>{
               >
 
                   {
-                    data.image.map((img,index)=>{
+                    data?.image?.map((img,index)=>{
                       return (
                         <div key={img+index} className='h-20 mt-1 w-20 min-w-20 bg-blue-50 border relative group '>
                           <img src={img} alt={`Uploaded Image ${index}`} 
@@ -267,7 +265,7 @@ const handleAddField=()=>{
               {
                 allCategory.map((c,index)=>{
                   return (
-                    <option value={c._id}>{c.name}</option>
+                    <option value={c?._id}>{c?.name}</option>
                   )
                 })
               }
@@ -275,10 +273,12 @@ const handleAddField=()=>{
  
     <div className='flex flex-wrap gap-3 '>
       {
+       
     data.category.map((c,index)=>{
       return (
-        <div key={c._id+index+"product section"} className='text-sm flex items-center gap-1 bg-blue-50  mt-2  '>
-          <p>{c.name}</p>
+        <div key={c?._id+index+"product section"} className='text-sm flex items-center gap-1 bg-blue-50  mt-2  '>
+          {console.log("datai ned 2",c)}
+          <p>{c?.name}</p>
           <div className='hover:text-red-500 cursor-pointer ' onClick={()=>handleRemoveCategory(index)}>
               <IoClose size={20} className='' />
           </div>
@@ -302,13 +302,13 @@ const handleAddField=()=>{
            <div className='grid  gap-1 '>
              <label className='font-medium'>SubCategory</label>
              <div>
-              <select 
+              {/* <select 
               className='bg-blue-50 border w-full p-2 rounded '
               value={selectSubCategory}
               onChange={(e)=>{
                 const value=e.target.value;
                 const subCategory=allSubCategory.find(el=>el._id===value);
-                console.log(subCategory);
+                console.log("test:",subCategory);
 
                 setData((prevData)=>{
                   return {
@@ -319,25 +319,48 @@ const handleAddField=()=>{
 
                  setselectSubCategory("");
               }}
-              
               >
               <option value={""}>Select Sub Category</option>
               {
                 allSubCategory.map((c,index)=>{
                   return (
-                    <option value={c?._id+index+"subcatgory section"} key={index}>{c.name}</option>
+                    <option value={c?._id+index+"subcatgory section"} key={index}>{c?.name}</option>
                   )
                 })
               }
-             </select>
+             </select> */}
+             <select 
+  className="bg-blue-50 border w-full p-2 rounded"
+  value={selectSubCategory}
+  onChange={(e) => {
+    const value = e.target.value;
+    const subCategory = allSubCategory.find(el => el._id === value);
+    console.log("test:", subCategory);
+
+    if (subCategory) {
+      setData((prevData) => ({
+        ...prevData,
+        subCategory: [...prevData.subCategory, subCategory],
+      }));
+    }
+
+    setselectSubCategory("");
+  }}
+>
+  <option value={""}>Select Sub Category</option>
+  {allSubCategory.map((c, index) => (
+    <option value={c?._id} key={index}>{c?.name}</option>
+  ))}
+</select>
  
     <div className='flex flex-wrap gap-3 '>
       {
     data.subCategory.map((c,index)=>{
       return (
-        <div key={c._id+index+"subcatgory section"} className='text-sm flex items-center gap-1 bg-blue-50  mt-2  '>
+        <div value={c._id+index+"subcatgory section"}  className='text-sm flex items-center gap-1 bg-blue-50  mt-2  '>
+              {console.log("data in map:", c)}
           <p>{c.name}</p>
-          <div className='hover:text-red-500 cursor-pointer ' onClick={()=>handleRemoveSubCategory(index)}>
+          <div className='hover:text-red-500 cursor-pointer' onClick={()=>handleRemoveSubCategory(index)}>
               <IoClose size={20} className='' />
           </div>
         </div>

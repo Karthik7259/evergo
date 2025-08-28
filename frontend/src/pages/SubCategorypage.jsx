@@ -84,7 +84,7 @@ const handleDeleteSubCategory  = async()=>{
       const {data : responseData} = response
 
       if(responseData.success){
-        
+        console.log("Fetched subcategories:", responseData.data);
         setData(responseData.data)
       }
 
