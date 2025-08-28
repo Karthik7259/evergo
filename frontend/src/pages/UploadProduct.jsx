@@ -8,6 +8,11 @@ import { MdDelete } from 'react-icons/md'
 import { useSelector } from 'react-redux'
 import { IoClose } from 'react-icons/io5'
 import AddFieldComponent from '../components/AddFieldComponent'
+import Axios from '../../utils/Axios'
+import AxiosToastError from '../../utils/AxiosToastError'
+
+import SummaryApi from '../../common/SummaryApi'
+import successAlert from '../../utils/SuccessAlert'
 
 
 const UploadProduct = () => {
@@ -47,10 +52,35 @@ const handleChange=(e)=>{
 const handleSubmit =async(e)=>{ 
   e.preventDefault();
   try {
-    const response = await uploadProduct(data);
+    const response = await Axios({
+      ...SummaryApi.createProduct,
+      data:data
+    })
+  const {data:responseData} = response;
+
+  if(responseData.success){
+    successAlert(responseData.message)
+    setData({
+      name : "",
+      image : [],
+      category : [],
+      subCategory:[],
+      unit :"",
+      stock : "",
+      price : "",
+      discount: "",
+      description : "",
+      more_details:{}
+    })
+    setViewImageURL("")
+    setOpenAddFields(false)
+    setFieldName("")
+  }
+  
+
     console.log(response);
   } catch (error) {
-    console.error(error);
+    AxiosToastError(error)
   }
 }
 
@@ -295,7 +325,7 @@ const handleAddField=()=>{
               {
                 allSubCategory.map((c,index)=>{
                   return (
-                    <option value={c?._id}>{c.name}</option>
+                    <option value={c?._id+index+"subcatgory section"} key={index}>{c.name}</option>
                   )
                 })
               }
@@ -305,7 +335,7 @@ const handleAddField=()=>{
       {
     data.subCategory.map((c,index)=>{
       return (
-        <div key={c._id+index+"product section"} className='text-sm flex items-center gap-1 bg-blue-50  mt-2  '>
+        <div key={c._id+index+"subcatgory section"} className='text-sm flex items-center gap-1 bg-blue-50  mt-2  '>
           <p>{c.name}</p>
           <div className='hover:text-red-500 cursor-pointer ' onClick={()=>handleRemoveSubCategory(index)}>
               <IoClose size={20} className='' />

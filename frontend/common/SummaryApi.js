@@ -79,6 +79,10 @@ const SummaryApi = {
     deleteSubcategory : {
         url:'/evergo/sub-category/delete',
         method:'delete'
+    },
+    createProduct:{
+        url:'/evergo/product/create',
+        method:'post'
     }
    
 
