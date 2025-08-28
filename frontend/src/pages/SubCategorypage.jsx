@@ -206,7 +206,7 @@ const handleDeleteSubCategory  = async()=>{
   openAddSubCategory && (
       <UploadSubCategoryModel
        close={() => setOpenAddSubCategory(false)}
-      
+       fetchData={fetchSubCategory}
       />
   )
 
