@@ -9,16 +9,21 @@ const ProductAdmin = () => {
   const [productData, setProductData] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [totalpage, setTotalpage] = useState(1);
 
   const fetchProductData = async () => {
     try {
       setLoading(true);
       const response = await Axios({
         ...SummaryApi.getProduct,
-        data: { page }
+        data: { 
+          page:page,
+          limit:12
+         }
       });
       const { data: responseData } = response;
       if (responseData.success) {
+        setTotalpage(responseData.totalNopage);
         setProductData(responseData.data);
       }
     } catch (error) {
@@ -31,6 +36,23 @@ const ProductAdmin = () => {
   useEffect(() => {
     fetchProductData();
   }, [page]);
+
+  const handleNext=()=>{
+     
+
+     if(page !== totalpage) {
+       setPage(prev => prev +1)
+     }
+
+  }
+
+  const handlePrevious=()=>{
+    if(page>1){
+      setPage(prev => prev -1)
+    }
+  }
+
+
 
   return (
    <section>
@@ -57,9 +79,10 @@ const ProductAdmin = () => {
     }
 </div>
 
-<div>
-  <button>Previous</button>
-  <button>Next</button>
+<div className='flex justify-between my-4 '>
+  <button onClick={handlePrevious} className='border border-amber-300 px-4 py-1 hover:bg-amber-500 '>Previous</button>
+  <button className='w-full bg-slate-100'>{page}/{totalpage}</button>
+  <button onClick={handleNext} className='border border-amber-300 px-4 py-1  hover:bg-amber-500'>Next</button>
 </div>
 
 
