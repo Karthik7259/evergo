@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
+import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay'
+
 
 
 const Home = () => {
@@ -95,6 +97,8 @@ const Home = () => {
   // Converts a string to a URL-friendly format
   
   
+
+
   
   return (
    <section className='bg-white '>
@@ -159,13 +163,19 @@ const Home = () => {
     {
       /* display category product */
     }
+ {
+  CategoryData.map((c,index)=>{
+    return (
 
-   <div>
-      <div className='container mx-auto p-4 flex items-center justify-between gap-4  '>
-         <h3>Dairy,Bread & Eggs</h3>
-         <Link to="" className='text-green-600 hover:text-green-400 ' >See All</Link>
-      </div>
-   </div>
+      <CategoryWiseProductDisplay 
+      key={c?._id+"categorywiseproduct"+index}
+      id={c?._id} 
+      name={c?.name}
+      />
+    )
+
+  })
+ }
 
 
 

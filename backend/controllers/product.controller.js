@@ -1,7 +1,4 @@
 import ProductModel from '../models/product.model.js';
-
-
-
 export const createProductController = async (req, res) => {
     try {
      const  {
@@ -57,7 +54,6 @@ export const createProductController = async (req, res) => {
     }
   };
 
-
 export const getProductController=async (req,res)=>{
   try{
      
@@ -106,7 +102,38 @@ export const getProductController=async (req,res)=>{
       message: error.message || error
     });
   }
-}
+};
+
+export const getProductByCategory=async(req,res)=>{
+  try{
+      const {id}=req.body;
+      if(!id){
+        return res.status(400).json({
+          error: true,
+          success: false,
+          message: "provide category id"
+        });
+      }
+      const product=await ProductModel.find({
+          category:{$in : id }
+      }).limit(15);
+      console.log("product", product);
+      return res.status(200).json({
+        error: false,
+        success: true,
+        message: "Product data",
+        data:product
+      });
+
+  }catch(error){
+      return res.status(500).json({
+        error: true,
+        success: false,
+        message: error.message || error
+      });
+  }
+
+};
 
 
 
