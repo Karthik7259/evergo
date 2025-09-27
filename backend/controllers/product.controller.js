@@ -135,15 +135,58 @@ export const getProductByCategory=async(req,res)=>{
 
 };
 
+export const getProductByCategoryAndSubCategory=async(req,res)=>{
+  try{
+      const { categoryId, subCategoryId,page,limit }=req.body;
+      if(!categoryId || !subCategoryId){  
+        return res.status(400).json({
+          error: true,
+          success: false,
+          message: "provide category and sub-category id"
+        });
+      }
+      if(!page){
+        page=1
+      }
+      if(!limit){
+        limit=10
+      }
+      
+     const query={
+      category : {
+        $in : categoryId
+      },
+      subCategory : {
+        $in : subCategoryId
+      }
+     }
+       const skip=(page-1)*limit
 
 
+      const [data,dataCount]=await new Promise([
+          ProductModel.find(query).sort({createdAt:-1}).skip(skip).limit(limit),
+          ProductModel.countDocuments(query) 
+      ])
 
+      
 
+    
+     
+      return res.status(200).json({
+        error: false,
+        success: true,
+        message: "Product list",
+        data:data,
+        totalCount:dataCount,
+        page:page,
+        limit:limit,
+      });
 
-
-
-
-
-
-
-
+  }catch(error){
+      return res.status(500).json({
+        error: true,
+        success: false,
+        message: error.message || error
+      });
+  }
+};
