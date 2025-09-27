@@ -106,7 +106,7 @@ export const getProductController=async (req,res)=>{
 
 export const getProductByCategory=async(req,res)=>{
   try{
-      const {id}=req.body;
+      const { id }=req.body;
       if(!id){
         return res.status(400).json({
           error: true,
@@ -115,9 +115,9 @@ export const getProductByCategory=async(req,res)=>{
         });
       }
       const product=await ProductModel.find({
-          category:{$in : id }
+          category:{ $in : id }
       }).limit(15);
-      console.log("product", product);
+     
       return res.status(200).json({
         error: false,
         success: true,

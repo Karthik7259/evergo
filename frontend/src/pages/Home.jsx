@@ -164,7 +164,7 @@ const Home = () => {
       /* display category product */
     }
  {
-  CategoryData.map((c,index)=>{
+  CategoryData?.map((c,index)=>{
     return (
 
       <CategoryWiseProductDisplay 
