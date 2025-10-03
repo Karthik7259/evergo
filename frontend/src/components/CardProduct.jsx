@@ -22,7 +22,7 @@ const CardProduct = ({data}) => {
 
 
 
-    const url =`product/${toUrlSafe(data.name)}-${data._id}`
+  const url = `/product/${toUrlSafe(data.name)}-${data._id}`
   return (
     <Link
     to={url}
