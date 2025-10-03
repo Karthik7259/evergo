@@ -8,6 +8,7 @@ import CardLoading from './CardLoading'
 import CardProduct from './CardProduct'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 import { useRef } from 'react'
+
 const CategoryWiseProductDisplay = ({ id, name }) => {
    const [data, setData] = useState([])
    const [loading, setLoading] = useState(false)

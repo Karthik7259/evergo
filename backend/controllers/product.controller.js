@@ -137,33 +137,26 @@ export const getProductByCategory=async(req,res)=>{
 
 export const getProductByCategoryAndSubCategory=async(req,res)=>{
   try{
-      const { categoryId, subCategoryId,page,limit }=req.body;
-      if(!categoryId || !subCategoryId){  
+      const { categoryId, subcategoryId, page=1, limit=10 }=req.body;
+      console.log("categoryId, subcategoryId", categoryId, subcategoryId);
+      if(!categoryId || !subcategoryId){  
         return res.status(400).json({
           error: true,
           success: false,
           message: "provide category and sub-category id"
         });
       }
-      if(!page){
-        page=1
-      }
-      if(!limit){
-        limit=10
-      }
       
-     const query={
-      category : {
-        $in : categoryId
-      },
-      subCategory : {
-        $in : subCategoryId
-      }
-     }
-       const skip=(page-1)*limit
+      // Correctly format the query with categoryId and subcategoryId as values, not objects
+      const query={
+        category: { $in: [categoryId] },
+        subCategory: { $in: [subcategoryId] }  // Note: Changed "subcategory" to "subCategory" to match the schema
+      };
+      
+      const skip=(page-1)*limit
 
 
-      const [data,dataCount]=await new Promise([
+      const [data,dataCount]=await Promise.all([
           ProductModel.find(query).sort({createdAt:-1}).skip(skip).limit(limit),
           ProductModel.countDocuments(query) 
       ])

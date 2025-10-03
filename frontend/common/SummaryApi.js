@@ -1,4 +1,5 @@
-import { getProductByCategory } from "../../backend/controllers/product.controller";
+
+
 
 export const baseurl= 'http://localhost:8080';
 
@@ -91,6 +92,10 @@ const SummaryApi = {
     },
     getProductByCategory:{
         url:'/evergo/product/get-product-by-category',
+        method:'post'
+    },
+    getProductByCategoryAndSubCategory:{
+        url:'/evergo/product/get-product-by-category-and-subcategory',
         method:'post'
     }
    
