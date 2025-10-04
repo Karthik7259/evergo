@@ -183,3 +183,29 @@ export const getProductByCategoryAndSubCategory=async(req,res)=>{
       });
   }
 };
+
+
+export const getProductDetails=async(req,res)=>{
+  try{
+  
+ const {productId}=req.body;
+
+ const product =await ProductModel.findOne({_id: productId})
+
+ 
+     return res.status(200).json({
+      error: false,
+      success: true,
+      message: "Product details",
+      data:product
+     });
+
+
+  }catch(error){
+      return res.status(500).json({
+        error: true,
+        success: false,
+        message: error.message || error
+      });
+  }
+};
